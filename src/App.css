@@ -1036,3 +1036,183 @@ body {
     font-size: 16px;
   }
 }
+
+
+
+/* Add these styles to your existing CSS */
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Modal Content */
+.modal-content {
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 16px;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  color: var(--selection-color);
+  font-family: "Luckiest Guy", cursive;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.close-modal {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* Mobile selection triggers */
+.mobile-select-trigger {
+  display: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-weight: 600;
+}
+
+.mobile-select-trigger:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Currently selected preview */
+.selected-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.selected-preview img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--selection-color);
+}
+
+.selected-preview span {
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+/* Modal grid adjustments for mobile */
+.modal-character-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-theme-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  /* Hide desktop sections on mobile */
+  .character-grid,
+  .theme-grid {
+    display: none;
+  }
+  
+  /* Show mobile triggers */
+  .mobile-select-trigger {
+    display: block;
+  }
+  
+  /* Adjust modal grids for mobile */
+  .modal-character-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .modal-theme-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Adjust modal for very small screens */
+  @media (max-width: 380px) {
+    .modal-character-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* For desktop - hide mobile triggers */
+@media (min-width: 769px) {
+  .mobile-select-trigger {
+    display: none;
+  }
+  
+  .character-grid,
+  .theme-grid {
+    display: grid;
+  }
+}

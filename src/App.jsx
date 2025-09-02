@@ -75,6 +75,8 @@ function App() {
   const [orientation, setOrientation] = useState(
     window.innerHeight > window.innerWidth ? "portrait" : "landscape"
   );
+  const [showCharacterModal, setShowCharacterModal] = useState(false);
+  const [showThemeModal, setShowThemeModal] = useState(false);
 
   // Audio refs
   const backgroundMusicRef = useRef(null);
@@ -854,6 +856,8 @@ function App() {
 
               <div className="menu-section">
                 <h2 className="menu-section-title">SELECT CHARACTER</h2>
+
+                {/* Desktop view (hidden on mobile) */}
                 <div className="character-grid">
                   {characters.map((character) => (
                     <div
@@ -873,10 +877,32 @@ function App() {
                     </div>
                   ))}
                 </div>
+
+                {/* Mobile trigger */}
+                <div
+                  className="mobile-select-trigger"
+                  onClick={() => setShowCharacterModal(true)}
+                >
+                  Change Character
+                  <div className="selected-preview">
+                    <img
+                      src={
+                        characters.find((c) => c.id === selectedCharacter)
+                          ?.preview
+                      }
+                      alt="Selected character"
+                    />
+                    <span>
+                      {characters.find((c) => c.id === selectedCharacter)?.name}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <div className="menu-section">
                 <h2 className="menu-section-title">SELECT THEME</h2>
+
+                {/* Desktop view (hidden on mobile) */}
                 <div className="theme-grid">
                   {themes.map((theme) => (
                     <div
@@ -895,9 +921,116 @@ function App() {
                     </div>
                   ))}
                 </div>
+
+                {/* Mobile trigger */}
+                <div
+                  className="mobile-select-trigger"
+                  onClick={() => setShowThemeModal(true)}
+                >
+                  Change Theme
+                  <div className="selected-preview">
+                    <img
+                      src={selectedTheme}
+                      alt="Selected theme"
+                      style={{ borderRadius: "4px" }}
+                    />
+                    <span>
+                      {themes.find((t) => t.image === selectedTheme)?.name}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Character Selection Modal */}
+          {showCharacterModal && (
+            <div
+              className="modal-overlay"
+              onClick={() => setShowCharacterModal(false)}
+            >
+              <div
+                className="modal-content"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="modal-header">
+                  <h2 className="modal-title">SELECT CHARACTER</h2>
+                  <button
+                    className="close-modal"
+                    onClick={() => setShowCharacterModal(false)}
+                  >
+                    &times;
+                  </button>
+                </div>
+                <div className="modal-character-grid">
+                  {characters.map((character) => (
+                    <div
+                      key={character.id}
+                      className={`character-card ${
+                        selectedCharacter === character.id ? "selected" : ""
+                      }`}
+                      onClick={() => {
+                        selectCharacter(character.id);
+                        setShowCharacterModal(false);
+                      }}
+                    >
+                      <div className="character-image">
+                        <img src={character.preview} alt={character.name} />
+                      </div>
+                      <div className="character-info">
+                        <h3>{character.name}</h3>
+                        <p>{character.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Theme Selection Modal */}
+          {showThemeModal && (
+            <div
+              className="modal-overlay"
+              onClick={() => setShowThemeModal(false)}
+            >
+              <div
+                className="modal-content"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="modal-header">
+                  <h2 className="modal-title">SELECT THEME</h2>
+                  <button
+                    className="close-modal"
+                    onClick={() => setShowThemeModal(false)}
+                  >
+                    &times;
+                  </button>
+                </div>
+                <div className="modal-theme-grid">
+                  {themes.map((theme) => (
+                    <div
+                      key={theme.id}
+                      className={`theme-card ${
+                        selectedTheme === theme.image ? "selected" : ""
+                      }`}
+                      onClick={() => {
+                        selectTheme(theme.image);
+                        setShowThemeModal(false);
+                      }}
+                    >
+                      <div className="theme-image">
+                        <img src={theme.image} alt={theme.name} />
+                        <div className="theme-overlay">
+                          <span>{theme.name}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
           {isTransitioning && <div className="transition-overlay"></div>}
         </div>
       )}
