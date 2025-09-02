@@ -75,13 +75,36 @@ function App() {
   const [orientation, setOrientation] = useState(
     window.innerHeight > window.innerWidth ? "portrait" : "landscape"
   );
-
-  // Audio refs
+  const [mobile, setMobile] = useState(false);
   const backgroundMusicRef = useRef(null);
   const jumpSoundRef = useRef(null);
   const coinSoundRef = useRef(null);
+  useEffect(() => {
+    setMobile(isMobile);
+  }, []);
 
-  // Character data
+  const [showCharacterModal, setShowCharacterModal] = useState(false);
+  const [showThemeModal, setShowThemeModal] = useState(false);
+
+  // Add these functions to your component
+  const openCharacterModal = () => setShowCharacterModal(true);
+  const closeCharacterModal = () => setShowCharacterModal(false);
+
+  const openThemeModal = () => setShowThemeModal(true);
+  const closeThemeModal = () => setShowThemeModal(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (mobile && window.innerWidth > window.innerHeight) {
+        setShowCharacterModal(false);
+        setShowThemeModal(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const characters = [
     {
       id: "dino",
@@ -135,21 +158,15 @@ function App() {
       description: "A brave boy with a cool outfit",
     },
   ];
-
-  // Theme data
   const themes = [
     { id: "desert", name: "Desert Dunes", image: themeImg },
     { id: "forest", name: "Mystic Forest", image: theme1Img },
     { id: "mountain", name: "Mountain Peaks", image: theme2Img },
     { id: "cave", name: "Dark Cave", image: theme5Img },
   ];
-
-  // Check orientation function
   const checkOrientation = () => {
     return window.innerHeight > window.innerWidth ? "portrait" : "landscape";
   };
-
-  // Add this function to handle manual full screen toggle
   const toggleFullScreen = async () => {
     try {
       if (!document.fullscreenElement) {
@@ -158,7 +175,7 @@ function App() {
 
         // Lock orientation to landscape on mobile after entering full screen
         if (
-          isMobile &&
+          mobile &&
           window.screen.orientation &&
           window.screen.orientation.lock
         ) {
@@ -178,7 +195,6 @@ function App() {
     }
   };
 
-  // Initialize audio elements
   useEffect(() => {
     backgroundMusicRef.current = new Audio(backgroundMusic);
     backgroundMusicRef.current.loop = true;
@@ -199,7 +215,6 @@ function App() {
     };
   }, []);
 
-  // Handle orientation changes
   useEffect(() => {
     const handleOrientationChange = () => {
       setOrientation(checkOrientation());
@@ -234,10 +249,9 @@ function App() {
     };
   }, []);
 
-  // Lock orientation and enter full screen when game starts on mobile
   useEffect(() => {
     const handleMobileGameStart = async () => {
-      if (isMobile && gameState === "playing") {
+      if (mobile && gameState === "playing") {
         // Enter full screen
         if (!document.fullscreenElement) {
           try {
@@ -261,9 +275,8 @@ function App() {
     };
 
     handleMobileGameStart();
-  }, [gameState, isMobile]);
+  }, [gameState, mobile]);
 
-  // Handle sound toggle
   const toggleSound = () => {
     const newSoundState = !soundEnabled;
     setSoundEnabled(newSoundState);
@@ -398,7 +411,7 @@ function App() {
     let GAME_WIDTH, GAME_HEIGHT;
 
     // Calculate game dimensions based on device
-    if (isMobile) {
+    if (mobile) {
       // For mobile, use the full available space
       GAME_WIDTH = window.innerWidth;
       GAME_HEIGHT = window.innerHeight;
@@ -413,31 +426,31 @@ function App() {
     }
 
     // Adjust player size for mobile
-    const PLAYER_WIDTH = isMobile ? 88 / 2 : 88 / 1.5;
-    const PLAYER_HEIGHT = isMobile ? 94 / 2 : 94 / 1.5;
+    const PLAYER_WIDTH = mobile ? 88 / 2 : 88 / 1.5;
+    const PLAYER_HEIGHT = mobile ? 94 / 2 : 94 / 1.5;
 
     // Adjust jump height for mobile
-    const MAX_JUMP_HEIGHT = isMobile ? GAME_HEIGHT * 0.6 : GAME_HEIGHT * 0.8;
-    const MIN_JUMP_HEIGHT = isMobile ? GAME_HEIGHT * 0.2 : GAME_HEIGHT * 0.3;
+    const MAX_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.6 : GAME_HEIGHT * 0.8;
+    const MIN_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.2 : GAME_HEIGHT * 0.3;
 
     const GROUND_WIDTH = 2400;
-    const GROUND_HEIGHT = isMobile ? 30 : 24;
+    const GROUND_HEIGHT = mobile ? 30 : 24;
     const GROUND_AND_CACTUS_SPEED = 0.5;
 
     const CACTI_CONFIG = [
       {
-        width: isMobile ? 150 / 2 : 150 / 1.5,
-        height: isMobile ? 130 / 2 : 130 / 1.5,
+        width: mobile ? 150 / 2 : 150 / 1.5,
+        height: mobile ? 130 / 2 : 130 / 1.5,
         image: bhalu,
       },
       {
-        width: isMobile ? 120 / 2 : 120 / 1.5,
-        height: isMobile ? 130 / 2 : 130 / 1.5,
+        width: mobile ? 120 / 2 : 120 / 1.5,
+        height: mobile ? 130 / 2 : 130 / 1.5,
         image: tiger,
       },
       {
-        width: isMobile ? 150 / 2 : 150 / 1.5,
-        height: isMobile ? 130 / 2 : 130 / 1.5,
+        width: mobile ? 150 / 2 : 150 / 1.5,
+        height: mobile ? 130 / 2 : 130 / 1.5,
         image: volcano,
       },
     ];
@@ -550,7 +563,7 @@ function App() {
       if (document.fullscreenElement) {
         GAME_WIDTH = window.innerWidth;
         GAME_HEIGHT = window.innerHeight;
-      } else if (isMobile) {
+      } else if (mobile) {
         // For mobile, use full screen dimensions
         GAME_WIDTH = window.innerWidth;
         GAME_HEIGHT = window.innerHeight;
@@ -568,7 +581,7 @@ function App() {
     }
 
     function getScaleRatio() {
-      if (isMobile) {
+      if (mobile) {
         // Different scaling for mobile devices
         return Math.min(window.innerWidth / 400, window.innerHeight / 250);
       }
@@ -576,7 +589,7 @@ function App() {
     }
 
     function showGameOver() {
-      const fontSize = isMobile ? 40 * scaleRatio : 70 * scaleRatio;
+      const fontSize = mobile ? 40 * scaleRatio : 70 * scaleRatio;
       ctx.font = `${fontSize}px 'Luckiest Guy', cursive`;
       ctx.fillStyle = "#ff4d4d";
       ctx.strokeStyle = "#000";
@@ -589,9 +602,9 @@ function App() {
 
     function drawCoinsCounter() {
       const coinsInfo = coinsController.getCoinsInfo();
-      const fontSize = isMobile ? 12 * scaleRatio : 15 * scaleRatio;
-      const padding = isMobile ? 4 * scaleRatio : 5 * scaleRatio;
-      const coinSize = isMobile ? 16 * scaleRatio : 20 * scaleRatio;
+      const fontSize = mobile ? 12 * scaleRatio : 15 * scaleRatio;
+      const padding = mobile ? 4 * scaleRatio : 5 * scaleRatio;
+      const coinSize = mobile ? 16 * scaleRatio : 20 * scaleRatio;
 
       // Calculate dimensions
       const text = `Coins: ${coinsInfo.collected}/${coinsInfo.total}`;
@@ -665,7 +678,7 @@ function App() {
     }
 
     function showStartGameText() {
-      const fontSize = isMobile ? 20 * scaleRatio : 40 * scaleRatio;
+      const fontSize = mobile ? 20 * scaleRatio : 40 * scaleRatio;
       ctx.font = `${fontSize}px 'Luckiest Guy', cursive`;
       ctx.fillStyle = "#fff";
       ctx.strokeStyle = "#000";
@@ -792,8 +805,7 @@ function App() {
     setSelectedCharacter(characterId);
   };
 
-  // Show orientation warning on mobile in portrait mode
-  const showOrientationWarning = isMobile && orientation === "portrait";
+  const showOrientationWarning = mobile && orientation === "portrait";
 
   return (
     <>
@@ -855,48 +867,202 @@ function App() {
               <div className="menu-section">
                 <h2 className="menu-section-title">SELECT CHARACTER</h2>
                 <div className="character-grid">
-                  {characters.map((character) => (
-                    <div
-                      key={character.id}
-                      className={`character-card ${
-                        selectedCharacter === character.id ? "selected" : ""
-                      }`}
-                      onClick={() => selectCharacter(character.id)}
-                    >
-                      <div className="character-image">
-                        <img src={character.preview} alt={character.name} />
+                  {mobile && window.innerWidth > window.innerHeight ? (
+                    // Mobile landscape - show only selected character
+                    <div className="selected-character-landscape">
+                      <div
+                        className="character-card selected"
+                        onClick={openCharacterModal}
+                      >
+                        <div className="character-image">
+                          <img
+                            src={
+                              characters.find((c) => c.id === selectedCharacter)
+                                ?.preview
+                            }
+                            alt={
+                              characters.find((c) => c.id === selectedCharacter)
+                                ?.name
+                            }
+                          />
+                        </div>
+                        <div className="character-info">
+                          <h3>
+                            {
+                              characters.find((c) => c.id === selectedCharacter)
+                                ?.name
+                            }
+                          </h3>
+                          <p>Tap to change</p>
+                        </div>
                       </div>
-                      <div className="character-info">
-                        <h3>{character.name}</h3>
-                        <p>{character.description}</p>
+                      <div
+                        className="change-button"
+                        onClick={openCharacterModal}
+                      >
+                        Change
                       </div>
                     </div>
-                  ))}
+                  ) : (
+                    // Default view (portrait or desktop)
+                    characters.map((character) => (
+                      <div
+                        key={character.id}
+                        className={`character-card ${
+                          selectedCharacter === character.id ? "selected" : ""
+                        }`}
+                        onClick={() => selectCharacter(character.id)}
+                      >
+                        <div className="character-image">
+                          <img src={character.preview} alt={character.name} />
+                        </div>
+                        <div className="character-info">
+                          <h3>{character.name}</h3>
+                          <p>{character.description}</p>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
 
               <div className="menu-section">
                 <h2 className="menu-section-title">SELECT THEME</h2>
                 <div className="theme-grid">
-                  {themes.map((theme) => (
-                    <div
-                      key={theme.id}
-                      className={`theme-card ${
-                        selectedTheme === theme.image ? "selected" : ""
-                      }`}
-                      onClick={() => selectTheme(theme.image)}
-                    >
-                      <div className="theme-image">
-                        <img src={theme.image} alt={theme.name} />
-                        <div className="theme-overlay">
-                          <span>{theme.name}</span>
+                  {mobile && window.innerWidth > window.innerHeight ? (
+                    // Mobile landscape - show only selected theme
+                    <div className="selected-theme-landscape">
+                      <div
+                        className="theme-card selected"
+                        onClick={openThemeModal}
+                      >
+                        <div className="theme-image">
+                          <img
+                            src={
+                              themes.find((t) => t.image === selectedTheme)
+                                ?.image
+                            }
+                            alt={
+                              themes.find((t) => t.image === selectedTheme)
+                                ?.name
+                            }
+                          />
+                          <div className="theme-overlay">
+                            <span>
+                              {
+                                themes.find((t) => t.image === selectedTheme)
+                                  ?.name
+                              }
+                            </span>
+                          </div>
                         </div>
                       </div>
+                      <div className="change-button" onClick={openThemeModal}>
+                        Change
+                      </div>
                     </div>
-                  ))}
+                  ) : (
+                    // Default view (portrait or desktop)
+                    themes.map((theme) => (
+                      <div
+                        key={theme.id}
+                        className={`theme-card ${
+                          selectedTheme === theme.image ? "selected" : ""
+                        }`}
+                        onClick={() => selectTheme(theme.image)}
+                      >
+                        <div className="theme-image">
+                          <img src={theme.image} alt={theme.name} />
+                          <div className="theme-overlay">
+                            <span>{theme.name}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
+
+            {/* Character Selection Modal */}
+            {showCharacterModal && (
+              <div className="modal-overlay" onClick={closeCharacterModal}>
+                <div
+                  className="modal-content"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="modal-header">
+                    <h2>SELECT CHARACTER</h2>
+                    <button
+                      className="modal-close"
+                      onClick={closeCharacterModal}
+                    >
+                      ×
+                    </button>
+                  </div>
+                  <div className="modal-character-grid">
+                    {characters.map((character) => (
+                      <div
+                        key={character.id}
+                        className={`character-card ${
+                          selectedCharacter === character.id ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          selectCharacter(character.id);
+                          closeCharacterModal();
+                        }}
+                      >
+                        <div className="character-image">
+                          <img src={character.preview} alt={character.name} />
+                        </div>
+                        <div className="character-info">
+                          <h3>{character.name}</h3>
+                          <p>{character.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Theme Selection Modal */}
+            {showThemeModal && (
+              <div className="modal-overlay" onClick={closeThemeModal}>
+                <div
+                  className="modal-content"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="modal-header">
+                    <h2>SELECT THEME</h2>
+                    <button className="modal-close" onClick={closeThemeModal}>
+                      ×
+                    </button>
+                  </div>
+                  <div className="modal-theme-grid">
+                    {themes.map((theme) => (
+                      <div
+                        key={theme.id}
+                        className={`theme-card ${
+                          selectedTheme === theme.image ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          selectTheme(theme.image);
+                          closeThemeModal();
+                        }}
+                      >
+                        <div className="theme-image">
+                          <img src={theme.image} alt={theme.name} />
+                          <div className="theme-overlay">
+                            <span>{theme.name}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           {isTransitioning && <div className="transition-overlay"></div>}
         </div>
@@ -964,7 +1130,7 @@ function App() {
 
       {gameState === "playing" && !showOrientationWarning && (
         <div className={`game-container ${isFullScreen ? "fullscreen" : ""}`}>
-          {isMobile && (
+          {mobile && (
             <button
               className="fullscreen-button floating-fullscreen-btn"
               onClick={toggleFullScreen}
