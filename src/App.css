@@ -1041,162 +1041,132 @@ body {
   width: 100%;
 }
 
-.change-button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-}
-
-.change-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  backdrop-filter: blur(5px);
-}
-
-.modal-content {
-  background: var(--menu-bg-gradient);
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  max-width: 90%;
-  max-height: 80%;
-  overflow-y: auto;
-  position: relative;
-  animation: modalFadeIn 0.3s ease-out;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 0.5rem;
-}
-
-.modal-header h2 {
-  font-size: 1.5rem;
-  color: var(--selection-color);
-  font-family: "Luckiest Guy", cursive;
-  letter-spacing: 1px;
-  margin: 0;
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 2rem;
-  cursor: pointer;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-.modal-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: rotate(90deg);
-}
-
-.modal-character-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  max-height: 60vh;
-  overflow-y: auto;
-  padding: 0.5rem;
-}
-
-.modal-theme-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  max-height: 60vh;
-  overflow-y: auto;
-  padding: 0.5rem;
-}
-
-/* Responsive adjustments for modals */
-@media (max-width: 480px) {
-  .modal-character-grid,
-  .modal-theme-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .modal-content {
-    padding: 1rem;
-    max-width: 95%;
-  }
-  
-  .modal-header h2 {
-    font-size: 1.2rem;
-  }
-}
-
 /* Mobile landscape specific adjustments */
 @media (max-width: 900px) and (orientation: landscape) {
   .menu-content {
     height: auto;
     max-height: 98vh;
     overflow-y: auto;
+    padding: 0.8rem;
   }
   
   .menu-options {
     gap: 0.8rem;
+    display: flex;
+    flex-direction: column;
   }
   
   .menu-section {
     padding: 0.8rem;
+    width: 100%;
+  }
+  
+  /* Character and Theme sections in a row */
+  .menu-sections-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .character-section,
+  .theme-section {
+    flex: 1;
+    min-width: 0; /* Allows flex items to shrink properly */
   }
   
   .character-grid,
   .theme-grid {
     justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .selected-character-landscape,
+  .selected-theme-landscape {
+    width: 100%;
   }
   
   .selected-character-landscape .character-card,
   .selected-theme-landscape .theme-card {
-    width: 180px;
+    width: 100%;
+    max-width: 180px;
     margin: 0 auto;
   }
   
   .selected-theme-landscape .theme-card {
     height: 100px;
+  }
+  
+  .menu-section-title {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Adjust game title for landscape */
+  .game-title {
+    font-size: 1.8rem;
+    margin: 0.3rem 0 0.8rem;
+  }
+  
+  /* Adjust play button */
+  .play-button {
+    padding: 0.7rem 1rem;
+    font-size: 1.1rem;
+    max-width: 220px;
+    margin: 10px auto;
+  }
+  
+  /* Ensure modals work well in landscape */
+  .modal-content {
+    max-width: 95%;
+    max-height: 85%;
+  }
+  
+  .modal-character-grid,
+  .modal-theme-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+}
+
+/* For very small landscape screens */
+@media (max-width: 900px) and (orientation: landscape) {
+  .menu-sections-container {
+    gap: 0.6rem;
+  }
+  
+  .menu-section-title {
+    font-size: 0.9rem;
+  }
+  
+  .selected-character-landscape .character-card,
+  .selected-theme-landscape .theme-card {
+    max-width: 150px;
+  }
+  
+  .change-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+/* For larger mobile landscape screens */
+@media (min-width: 900px) and (max-width: 1024px) and (orientation: landscape) {
+  .menu-sections-container {
+    gap: 1.5rem;
+  }
+  
+  .selected-character-landscape .character-card,
+  .selected-theme-landscape .theme-card {
+    max-width: 200px;
+  }
+  
+  .selected-theme-landscape .theme-card {
+    height: 120px;
   }
 }
 
