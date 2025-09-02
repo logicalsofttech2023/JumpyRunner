@@ -1176,7 +1176,7 @@ body {
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   /* Hide desktop sections on mobile */
   .character-grid,
   .theme-grid {
@@ -1206,7 +1206,7 @@ body {
 }
 
 /* For desktop - hide mobile triggers */
-@media (min-width: 769px) {
+@media (min-width: 900px) {
   .mobile-select-trigger {
     display: none;
   }
