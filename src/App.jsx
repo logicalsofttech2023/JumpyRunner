@@ -5,13 +5,30 @@ import Player from "./Player.js";
 import Ground from "./Ground.js";
 import CactiController from "./CactiController.js";
 import Score from "./Score.js";
-import bhalu from "./bhalu.png";
-import tiger from "./tiger.png";
-import volcano from "./volcano.png";
-import themeImg from "./Themes/Theme.png";
-import theme1Img from "./Themes/Theme1.jpg";
-import theme2Img from "./Themes/Theme2.jfif";
-import theme5Img from "./Themes/Theme5.jpg";
+
+// Theme with obstacles
+import themeImg from "./Themes/Theme/Theme.png";
+import ThemeObstacle1 from "./Themes/Theme/ThemeObstacle1.png";
+import ThemeObstacle2 from "./Themes/Theme/ThemeObstacle2.png";
+import ThemeObstacle3 from "./Themes/Theme/ThemeObstacle3.png";
+
+// Theme1 with obstacles
+import theme1Img from "./Themes/Theme1/Theme1.jpg";
+import Theme1Obstacle1 from "./Themes/Theme1/Theme1Obstacle1.png";
+import Theme1Obstacle2 from "./Themes/Theme1/Theme1Obstacle2.png";
+import Theme1Obstacle3 from "./Themes/Theme1/Theme1Obstacle3.png";
+
+// Theme2 with obstacles
+import theme2Img from "./Themes/Theme2/Theme2.jfif";
+import Theme2Obstacle1 from "./Themes/Theme2/Theme2Obstacle1.png";
+import Theme2Obstacle2 from "./Themes/Theme2/Theme2Obstacle2.png";
+import Theme2Obstacle3 from "./Themes/Theme2/Theme2Obstacle3.png";
+
+// Theme3 with obstacles
+import theme3Img from "./Themes/Theme3/Theme3.jpg";
+import Theme3Obstacle1 from "./Themes/Theme3/Theme3Obstacle1.png";
+import Theme3Obstacle2 from "./Themes/Theme3/Theme3Obstacle2.png";
+import Theme3Obstacle3 from "./Themes/Theme3/Theme3Obstacle3.png";
 
 // Import character images
 import dinoDefault from "./Costom/Char2/step1.png";
@@ -62,7 +79,7 @@ import coinSound from "./Costom/Sounds/coin-sound.mp3";
 function App() {
   const canvasRef = useRef(null);
   const [gameState, setGameState] = useState("menu");
-  const [selectedTheme, setSelectedTheme] = useState(theme5Img);
+  const [selectedTheme, setSelectedTheme] = useState(theme3Img);
   const [selectedCharacter, setSelectedCharacter] = useState("dino");
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -164,7 +181,7 @@ function App() {
     { id: "desert", name: "Desert Dunes", image: themeImg },
     { id: "forest", name: "Mystic Forest", image: theme1Img },
     { id: "mountain", name: "Mountain Peaks", image: theme2Img },
-    { id: "cave", name: "Dark Cave", image: theme5Img },
+    { id: "cave", name: "Dark Cave", image: theme3Img },
   ];
   const checkOrientation = () => {
     return window.innerHeight > window.innerWidth ? "portrait" : "landscape";
@@ -443,17 +460,17 @@ function App() {
       {
         width: mobile ? 150 / 2 : 200 / 1.5,
         height: mobile ? 130 / 2 : 200 / 1.5,
-        image: bhalu,
+        image: Theme3Obstacle1,
       },
       {
         width: mobile ? 120 / 2 : 200 / 1.5,
         height: mobile ? 130 / 2 : 200 / 1.5,
-        image: tiger,
+        image: Theme3Obstacle2,
       },
       {
         width: mobile ? 150 / 2 : 200 / 1.5,
         height: mobile ? 130 / 2 : 200 / 1.5,
-        image: volcano,
+        image: Theme3Obstacle3,
       },
     ];
 
