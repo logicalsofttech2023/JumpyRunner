@@ -121,6 +121,7 @@ function App() {
       jumpImage: dinoJump,
       preview: dinoDefault,
       description: "Classic runner with smooth animation",
+      scale: 1.0,
     },
     {
       id: "rebit",
@@ -138,6 +139,7 @@ function App() {
       jumpImage: rebitJump,
       preview: rebitDefault,
       description: "A cute rabbit with a unique style",
+      scale: 0.8,
     },
     {
       id: "boy",
@@ -155,6 +157,7 @@ function App() {
       jumpImage: boyJump,
       preview: boyDefault,
       description: "A brave boy with a cool outfit",
+      scale: 1.2,
     },
   ];
   const themes = [
@@ -425,11 +428,11 @@ function App() {
     }
 
     // Adjust player size for mobile
-    const PLAYER_WIDTH = mobile ? 88 / 2 : 88 / 1.5;
-    const PLAYER_HEIGHT = mobile ? 94 / 2 : 94 / 1.5;
+    const PLAYER_WIDTH = mobile ? 88 / 2 : 130 / 1.5;
+    const PLAYER_HEIGHT = mobile ? 94 / 2 : 130 / 1.5;
 
     // Adjust jump height for mobile
-    const MAX_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.8 : GAME_HEIGHT * 0.8;
+    const MAX_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.8 : GAME_HEIGHT * 1;
     const MIN_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.2 : GAME_HEIGHT * 0.3;
 
     const GROUND_WIDTH = 2400;
@@ -438,18 +441,18 @@ function App() {
 
     const CACTI_CONFIG = [
       {
-        width: mobile ? 150 / 2 : 150 / 1.5,
-        height: mobile ? 130 / 2 : 130 / 1.5,
+        width: mobile ? 150 / 2 : 200 / 1.5,
+        height: mobile ? 130 / 2 : 200 / 1.5,
         image: bhalu,
       },
       {
-        width: mobile ? 120 / 2 : 120 / 1.5,
-        height: mobile ? 130 / 2 : 130 / 1.5,
+        width: mobile ? 120 / 2 : 200 / 1.5,
+        height: mobile ? 130 / 2 : 200 / 1.5,
         image: tiger,
       },
       {
-        width: mobile ? 150 / 2 : 150 / 1.5,
-        height: mobile ? 130 / 2 : 130 / 1.5,
+        width: mobile ? 150 / 2 : 200 / 1.5,
+        height: mobile ? 130 / 2 : 200 / 1.5,
         image: volcano,
       },
     ];
@@ -998,7 +1001,6 @@ function App() {
                 <div
                   className="modal-content character-modal"
                   onClick={(e) => e.stopPropagation()}
-                  
                 >
                   <div className="modal-header">
                     <h2>SELECT CHARACTER</h2>
@@ -1042,7 +1044,6 @@ function App() {
                 <div
                   className="modal-content theme-modal"
                   onClick={(e) => e.stopPropagation()}
-                  
                 >
                   <div className="modal-header">
                     <h2>SELECT THEME</h2>

@@ -1,7 +1,7 @@
 import Cactus from "./Cactus.js";
 
 export default class CactiController {
-  CACTUS_INTERVAL_MIN = 500;
+  CACTUS_INTERVAL_MIN = 2000;
   CACTUS_INTERVAL_MAX = 5000;
 
   nextCactusInterval = null;
@@ -22,7 +22,6 @@ export default class CactiController {
       this.CACTUS_INTERVAL_MIN,
       this.CACTUS_INTERVAL_MAX
     );
-
     this.nextCactusInterval = num;
   }
 
@@ -33,8 +32,10 @@ export default class CactiController {
   createCactus() {
     const index = this.getRandomNumber(0, this.cactiImages.length - 1);
     const cactusImage = this.cactiImages[index];
-    const x = this.canvas.width * 1.5;
+
+    const x = this.canvas.width * 1.2;
     const y = this.canvas.height - cactusImage.height;
+
     const cactus = new Cactus(
       this.ctx,
       x,
@@ -43,6 +44,14 @@ export default class CactiController {
       cactusImage.height,
       cactusImage.image
     );
+
+    if (this.cacti.length > 0) {
+      const lastCactus = this.cacti[this.cacti.length - 1];
+      if (x - lastCactus.x < 300) {
+        
+        return;
+      }
+    }
 
     this.cacti.push(cactus);
   }
@@ -58,6 +67,7 @@ export default class CactiController {
       cactus.update(this.speed, gameSpeed, frameTimeDelta, this.scaleRatio);
     });
 
+    // remove off-screen cacti
     this.cacti = this.cacti.filter((cactus) => cactus.x > -cactus.width);
   }
 
