@@ -1023,7 +1023,7 @@ function App() {
                     {characters.map((character) => (
                       <div
                         key={character.id}
-                        className={`character-card ${
+                        className={`modal-character-card ${
                           selectedCharacter === character.id ? "selected" : ""
                         }`}
                         onClick={() => {
@@ -1031,10 +1031,13 @@ function App() {
                           closeCharacterModal();
                         }}
                       >
-                        <div className="character-image">
+                        <div className="modal-character-image">
                           <img src={character.preview} alt={character.name} />
+                          {selectedCharacter === character.id && (
+                            <div className="selected-indicator">✓</div>
+                          )}
                         </div>
-                        <div className="character-info">
+                        <div className="modal-character-info">
                           <h3>{character.name}</h3>
                           <p>{character.description}</p>
                         </div>
@@ -1071,7 +1074,7 @@ function App() {
                     {themes.map((theme) => (
                       <div
                         key={theme.id}
-                        className={`theme-card ${
+                        className={`modal-theme-card ${
                           selectedTheme === theme.image ? "selected" : ""
                         }`}
                         onClick={() => {
@@ -1079,9 +1082,12 @@ function App() {
                           closeThemeModal();
                         }}
                       >
-                        <div className="theme-image">
+                        <div className="modal-theme-image">
                           <img src={theme.image} alt={theme.name} />
-                          <div className="theme-overlay">
+                          {selectedTheme === theme.image && (
+                            <div className="selected-indicator">✓</div>
+                          )}
+                          <div className="modal-theme-overlay">
                             <span>{theme.name}</span>
                           </div>
                         </div>
