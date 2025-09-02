@@ -65,6 +65,7 @@ body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
   animation: fadeIn 0.8s ease-out;
+  overflow-y: auto;
 }
 
 .menu-content::-webkit-scrollbar {
@@ -213,6 +214,7 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .menu-section::before {
@@ -239,7 +241,6 @@ body {
 .character-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-
   gap: 0.8rem;
   overflow-y: auto;
   padding: 5px;
@@ -544,90 +545,6 @@ body {
   }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .menu-content {
-    padding: 1.5rem;
-    width: 95%;
-    max-height: 95vh;
-  }
-
-  .game-title {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .menu-button {
-    padding: 1rem 1.5rem;
-    font-size: 1.5rem;
-  }
-
-  .menu-section {
-    padding: 1.5rem;
-  }
-
-  .menu-section-title {
-    font-size: 1.5rem;
-  }
-
-  .character-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-  }
-
-  .theme-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .character-image {
-    width: 90px;
-    height: 90px;
-  }
-}
-
-@media (max-width: 480px) {
-  .game-title {
-    font-size: 1.8rem;
-  }
-
-  .character-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .theme-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .menu-section-title {
-    font-size: 1rem;
-  }
-
-  .character-image {
-    width: 60px;
-    height: 60px;
-  }
-
-  .theme-card {
-    height: 70px;
-  }
-}
-
-/* Scrollbar styling for sections */
-.menu-section::-webkit-scrollbar {
-  width: 5px;
-}
-
-.menu-section::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-}
-
-/* Ensure no scroll on body */
-body {
-  overflow: hidden;
-}
-
 /* Game Over Screen Styles */
 .game-over-container {
   position: fixed;
@@ -766,39 +683,6 @@ body {
   }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .game-over-card {
-    padding: 20px;
-  }
-
-  .game-over-title {
-    font-size: 2.5rem;
-  }
-
-  .score-display {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .game-over-actions {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .action-button {
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .action-button img {
-    margin-bottom: 0;
-    width: 30px;
-    height: 30px;
-  }
-}
-
 .total-coins-display {
   position: absolute;
   top: 10px;
@@ -883,57 +767,6 @@ body {
   }
 }
 
-/* For mobile responsiveness */
-@media (max-width: 768px) {
-  .total-coins-display {
-    top: 10px;
-    right: 10px;
-    padding: 8px 15px;
-  }
-
-  .coins-icon {
-    font-size: 22px;
-  }
-
-  .total-coins {
-    font-size: 20px;
-  }
-
-  .menu-content {
-    padding: 0.8rem;
-    height: 97vh;
-  }
-
-  .game-title {
-    font-size: 2rem;
-    margin: 0.3rem 0 0.8rem;
-  }
-
-  .menu-section {
-    padding: 0.8rem;
-  }
-
-  .menu-section-title {
-    font-size: 1.1rem;
-  }
-
-  .character-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 0.6rem;
-  }
-
-  .theme-grid {
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 0.6rem;
-  }
-
-  .play-button {
-    padding: 0.7rem 1.2rem;
-    font-size: 1.2rem;
-    max-width: 250px;
-  }
-}
-
 .collect-animation {
   animation: collect 0.5s ease-in-out;
 }
@@ -951,8 +784,6 @@ body {
   }
 }
 
-/* Add these styles to your CSS */
-
 /* Orientation warning for mobile */
 .orientation-warning {
   display: none;
@@ -961,7 +792,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.95);
   z-index: 2000;
   justify-content: center;
   align-items: center;
@@ -979,16 +810,20 @@ body {
   font-size: 24px;
   margin-bottom: 20px;
   color: #ff6b6b;
+  font-family: "Luckiest Guy", cursive;
+  letter-spacing: 1px;
 }
 
 .orientation-warning p {
   font-size: 18px;
   margin-bottom: 30px;
+  max-width: 80%;
+  line-height: 1.5;
 }
 
 .orientation-warning .rotate-icon {
-  font-size: 60px;
-  margin-bottom: 20px;
+  font-size: 80px;
+  margin-bottom: 30px;
   animation: rotateDevice 2s infinite;
 }
 
@@ -1004,21 +839,22 @@ body {
 
 /* Full screen button */
 .fullscreen-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 10px 15px;
-  background: rgba(0, 0, 0, 0.7);
+  padding: 12px 24px;
+  background: linear-gradient(145deg, #4caf50, #2e7d32);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 5px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  z-index: 100;
-  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .fullscreen-button:hover {
-  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* For mobile devices */
@@ -1056,4 +892,207 @@ body {
   height: 100vh;
   border: none;
   border-radius: 0;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .menu-content {
+    padding: 0.8rem;
+    height: 97vh;
+    width: 95%;
+    max-width: none;
+  }
+
+  .game-title {
+    font-size: 2rem;
+    margin: 0.3rem 0 0.8rem;
+  }
+
+  .menu-section {
+    padding: 0.8rem;
+  }
+
+  .menu-section-title {
+    font-size: 1.1rem;
+  }
+
+  .character-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+
+  .theme-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+
+  .play-button {
+    padding: 0.7rem 1.2rem;
+    font-size: 1.2rem;
+    max-width: 250px;
+  }
+
+  .character-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .theme-card {
+    height: 70px;
+  }
+
+  .character-info h3 {
+    font-size: 0.8rem;
+  }
+
+  .character-info p {
+    font-size: 0.65rem;
+  }
+
+  .total-coins-display {
+    top: 5px;
+    right: 5px;
+    padding: 6px 12px;
+  }
+
+  .coins-icon {
+    font-size: 18px;
+  }
+
+  .total-coins {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 1.8rem;
+  }
+
+  .character-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-section-title {
+    font-size: 1rem;
+  }
+
+  .character-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .theme-card {
+    height: 60px;
+  }
+
+  .orientation-warning h2 {
+    font-size: 20px;
+  }
+
+  .orientation-warning p {
+    font-size: 16px;
+  }
+
+  .orientation-warning .rotate-icon {
+    font-size: 60px;
+  }
+}
+
+/* Modal styles for character and theme selection on mobile */
+.character-modal,
+.theme-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  color: #ffcc00;
+  font-family: "Luckiest Guy", cursive;
+  letter-spacing: 1px;
+}
+
+.close-modal {
+  background: #ff6b6b;
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 600px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px;
+}
+
+/* Scrollbar styling for modal content */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+/* Touch-friendly button sizing */
+button,
+.character-card,
+.theme-card {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent text selection on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Ensure inputs are still selectable */
+input,
+textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
