@@ -7,8 +7,9 @@ export default class Player {
   jumpPressed = false;
   jumpInProgress = false;
   falling = false;
-  JUMP_SPEED = 0.9;
-  GRAVITY = 0.6;
+
+  BASE_JUMP_SPEED = 0.9;
+  BASE_GRAVITY = 0.3;
 
   constructor(ctx, width, height, minJumpHeight, maxJumpHeight, scaleRatio, characterData, gameHeight, onJump) {
     this.ctx = ctx;
@@ -30,22 +31,21 @@ export default class Player {
     this.standingStillImage.src = characterData.jumpImage;
     this.image = this.standingStillImage;
 
-    // Load all running images
+    // Load running frames
     this.dinoRunImages = [];
-    characterData.runImages.forEach(imgSrc => {
+    characterData.runImages.forEach((imgSrc) => {
       const image = new Image();
       image.src = imgSrc;
       this.dinoRunImages.push(image);
     });
 
-    // Keyboard event listeners
+    // Bind handlers
     this.keydown = this.keydown.bind(this);
     this.keyup = this.keyup.bind(this);
-    
-    // Touch event listeners
     this.touchstart = this.touchstart.bind(this);
     this.touchend = this.touchend.bind(this);
 
+    // Ensure no duplicate listeners
     window.removeEventListener("keydown", this.keydown);
     window.removeEventListener("keyup", this.keyup);
     window.removeEventListener("touchstart", this.touchstart);
@@ -57,7 +57,10 @@ export default class Player {
     window.addEventListener("touchend", this.touchend);
   }
 
-  touchstart() {
+  // Touch handlers (mobile)
+  touchstart(e) {
+    // prevent accidental scrolling on some devices
+    if (e && e.preventDefault) e.preventDefault();
     this.jumpPressed = true;
   }
 
@@ -65,14 +68,31 @@ export default class Player {
     this.jumpPressed = false;
   }
 
+  // Helper: detect jump keys (Space, ArrowUp, ArrowDown)
+  isJumpKey(event) {
+    const code = event.code;
+    const key = event.key;
+    return (
+      code === "Space" ||
+      key === " " ||
+      key === "Spacebar" || // old browsers
+      code === "ArrowUp" ||
+      code === "ArrowDown" ||
+      key === "ArrowUp" ||
+      key === "ArrowDown"
+    );
+  }
+
   keydown(event) {
-    if (event.code === "Space" || event.key === " " || event.code === "ArrowUp" || event.code === "ArrowDown") {
+    if (this.isJumpKey(event)) {
+      if (event.preventDefault) event.preventDefault();
       this.jumpPressed = true;
     }
   }
 
   keyup(event) {
-    if (event.code === "Space" || event.key === " " || event.code === "ArrowUp" || event.code === "ArrowDown") {
+    if (this.isJumpKey(event)) {
+      if (event.preventDefault) event.preventDefault();
       this.jumpPressed = false;
     }
   }
@@ -84,32 +104,35 @@ export default class Player {
       this.image = this.standingStillImage;
     }
 
-    this.jump(frameTimeDelta);
+    this.jump(gameSpeed, frameTimeDelta);
   }
 
-  jump(frameTimeDelta) {
+  jump(gameSpeed, frameTimeDelta) {
     if (this.jumpPressed && !this.jumpInProgress && !this.falling) {
       this.jumpInProgress = true;
       this.falling = false;
-      
-      // Trigger jump sound callback
+
       if (this.onJump) {
         this.onJump();
       }
     }
+
+    // scale jump & gravity with game speed
+    const jumpSpeed = this.BASE_JUMP_SPEED * gameSpeed;
+    const gravity = this.BASE_GRAVITY * gameSpeed;
 
     if (this.jumpInProgress && !this.falling) {
       if (
         this.y > this.gameHeight - this.minJumpHeight ||
         (this.y > this.gameHeight - this.maxJumpHeight && this.jumpPressed)
       ) {
-        this.y -= this.JUMP_SPEED * frameTimeDelta * this.scaleRatio;
+        this.y -= jumpSpeed * frameTimeDelta * this.scaleRatio;
       } else {
         this.falling = true;
       }
     } else {
       if (this.y < this.yStandingPosition) {
-        this.y += this.GRAVITY * frameTimeDelta * this.scaleRatio;
+        this.y += gravity * frameTimeDelta * this.scaleRatio;
         if (this.y + this.height > this.canvas.height) {
           this.y = this.yStandingPosition;
         }
@@ -121,10 +144,8 @@ export default class Player {
   }
 
   run(gameSpeed, frameTimeDelta) {
-    // Only animate if not jumping
     if (!this.jumpInProgress && !this.falling) {
       if (this.walkAnimationTimer <= 0) {
-        // Cycle through all 8 frames
         this.currentFrame = (this.currentFrame + 1) % this.dinoRunImages.length;
         this.image = this.dinoRunImages[this.currentFrame];
         this.walkAnimationTimer = this.WALK_ANIMATION_TIMER;
