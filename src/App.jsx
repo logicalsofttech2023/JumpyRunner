@@ -1071,7 +1071,7 @@ function App() {
                         <img
                           src={character.preview}
                           alt={character.name}
-                          style={{ width: "100%", height: "auto" }}
+                          style={{ width: "100%", height: "100px" }}
                         />
                         <Typography variant="subtitle1" sx={{ mt: 1 }}>
                           {character.name}

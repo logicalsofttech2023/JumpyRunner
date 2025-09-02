@@ -1042,7 +1042,7 @@ body {
 }
 
 /* Mobile landscape specific adjustments */
-@media (max-width: 900px) and (orientation: landscape) {
+@media (max-width: 768px) and (orientation: landscape) {
   .menu-content {
     height: auto;
     max-height: 98vh;
@@ -1134,7 +1134,7 @@ body {
 }
 
 /* For very small landscape screens */
-@media (max-width: 900px) and (orientation: landscape) {
+@media (max-width: 640px) and (orientation: landscape) {
   .menu-sections-container {
     gap: 0.6rem;
   }
@@ -1155,7 +1155,7 @@ body {
 }
 
 /* For larger mobile landscape screens */
-@media (min-width: 900px) and (max-width: 1024px) and (orientation: landscape) {
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
   .menu-sections-container {
     gap: 1.5rem;
   }
@@ -1167,34 +1167,5 @@ body {
   
   .selected-theme-landscape .theme-card {
     height: 120px;
-  }
-}
-
-
-/* Mobile Landscape Modal Adjustments */
-@media (max-width: 900px) and (orientation: landscape) {
-  .MuiModal-root .MuiBox-root {
-    max-height: 90vh !important;
-    width: 95% !important;
-    padding: 0.8rem !important;
-  }
-  
-  .MuiGrid-container {
-    gap: 0.5rem !important;
-  }
-  
-  .MuiGrid-item {
-    padding: 0.25rem !important;
-  }
-}
-
-/* For very small landscape screens */
-@media (max-width: 700px) and (orientation: landscape) {
-  .MuiModal-root .MuiBox-root {
-    max-height: 95vh !important;
-  }
-  
-  .MuiTypography-h5 {
-    font-size: 1.2rem !important;
   }
 }
