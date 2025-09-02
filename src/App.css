@@ -30,7 +30,7 @@ body {
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
   min-height: 100vh;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
   color: var(--text-color);
 }
 
@@ -923,11 +923,6 @@ body {
   border-radius: 10px;
 }
 
-/* Ensure no scroll on body */
-body {
-  overflow: hidden;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .menu-content {
@@ -1038,181 +1033,148 @@ body {
 }
 
 
-
-/* Add these styles to your existing CSS */
-
-/* Modal Overlay */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  backdrop-filter: blur(5px);
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Modal Content */
-.modal-content {
-  background: rgba(0, 0, 0, 0.9);
-  border-radius: 16px;
-  padding: 20px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow-y: auto;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
-  position: relative;
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Modal Header */
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.modal-title {
-  font-size: 1.5rem;
-  color: var(--selection-color);
-  font-family: "Luckiest Guy", cursive;
-  letter-spacing: 1px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.close-modal {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: white;
-  font-size: 1.5rem;
-  transition: all 0.3s ease;
-}
-
-.close-modal:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: rotate(90deg);
-}
-
-/* Mobile selection triggers */
-.mobile-select-trigger {
-  display: none;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 10px 15px;
-  margin-top: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  font-weight: 600;
-}
-
-.mobile-select-trigger:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* Currently selected preview */
-.selected-preview {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.selected-preview img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--selection-color);
-}
-
-.selected-preview span {
-  font-size: 0.9rem;
-  color: var(--text-color);
-}
-
-/* Modal grid adjustments for mobile */
-.modal-character-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.modal-theme-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 900px) {
-  /* Hide desktop sections on mobile */
-  .character-grid,
-  .theme-grid {
-    display: none;
+/* Mobile Landscape Responsive Styles */
+@media (max-width: 900px) and (orientation: landscape) {
+  .menu-content {
+    height: 98vh;
+    padding: 0.5rem;
+    overflow-y: auto;
   }
   
-  /* Show mobile triggers */
-  .mobile-select-trigger {
-    display: block;
+  .menu-options {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
   
-  /* Adjust modal grids for mobile */
-  .modal-character-grid {
+  .play-button {
+    order: -1;
+    width: 100%;
+    margin: 0 auto 0.5rem;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .menu-section {
+    flex: 1;
+    min-width: 45%;
+    max-height: 40vh;
+    padding: 0.5rem;
+  }
+  
+  .menu-section-title {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Character Grid Adjustments */
+  .character-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+    max-height: 30vh;
   }
   
-  .modal-theme-grid {
-    grid-template-columns: 1fr;
+  .character-card {
+    padding: 0.4rem;
   }
   
-  /* Adjust modal for very small screens */
-  @media (max-width: 380px) {
-    .modal-character-grid {
-      grid-template-columns: 1fr;
-    }
+  .character-image {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 0.3rem;
+  }
+  
+  .character-info h3 {
+    font-size: 0.7rem;
+  }
+  
+  .character-info p {
+    font-size: 0.6rem;
+    display: none; /* Hide description to save space */
+  }
+  
+  .character-card.selected::after {
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    font-size: 0.7rem;
+  }
+  
+  /* Theme Grid Adjustments */
+  .theme-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+    max-height: 30vh;
+  }
+  
+  .theme-card {
+    height: 60px;
+  }
+  
+  .theme-overlay {
+    padding: 0.3rem;
+    font-size: 0.7rem;
+  }
+  
+  .theme-card.selected::after {
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    font-size: 0.7rem;
+  }
+  
+  /* Adjust coin display for landscape */
+  .total-coins-display {
+    top: 5px;
+    right: 5px;
+    padding: 4px 8px;
+  }
+  
+  .coins-icon {
+    font-size: 16px;
+  }
+  
+  .total-coins {
+    font-size: 14px;
+  }
+  
+  /* Sound toggle adjustment */
+  .sound-toggle-menu {
+    top: 5px;
+    left: 5px;
+    width: 30px;
+    height: 30px;
   }
 }
 
-/* For desktop - hide mobile triggers */
-@media (min-width: 900px) {
-  .mobile-select-trigger {
-    display: none;
+/* Extra small mobile landscape */
+@media (max-width: 640px) and (orientation: landscape) {
+  .menu-section {
+    min-width: 48%;
   }
   
   .character-grid,
   .theme-grid {
-    display: grid;
+    grid-template-columns: 1fr;
+    max-height: 28vh;
+  }
+  
+  .game-title {
+    font-size: 1.5rem;
+    margin: 0.2rem 0;
+  }
+}
+
+/* Very tall mobile landscape (like some Android devices) */
+@media (max-height: 400px) and (orientation: landscape) {
+  .menu-section {
+    max-height: 35vh;
+  }
+  
+  .character-grid,
+  .theme-grid {
+    max-height: 25vh;
   }
 }

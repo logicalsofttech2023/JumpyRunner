@@ -66,13 +66,13 @@ export default class Player {
   }
 
   keydown(event) {
-    if (event.code === "Space" || event.key === " ") {
+    if (event.code === "Space" || event.key === " " || event.code === "ArrowUp" || event.code === "ArrowDown") {
       this.jumpPressed = true;
     }
   }
 
   keyup(event) {
-    if (event.code === "Space" || event.key === " ") {
+    if (event.code === "Space" || event.key === " " || event.code === "ArrowUp" || event.code === "ArrowDown") {
       this.jumpPressed = false;
     }
   }
