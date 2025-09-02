@@ -1061,7 +1061,7 @@ body {
     width: 100%;
   }
   
-  /* Character and Theme sections in a row */
+  
   .menu-sections-container {
     display: flex;
     flex-direction: row;
@@ -1072,7 +1072,7 @@ body {
   .character-section,
   .theme-section {
     flex: 1;
-    min-width: 0; /* Allows flex items to shrink properly */
+    min-width: 0;
   }
   
   .character-grid,
@@ -1106,13 +1106,13 @@ body {
     text-overflow: ellipsis;
   }
   
-  /* Adjust game title for landscape */
+  
   .game-title {
     font-size: 1.8rem;
     margin: 0.3rem 0 0.8rem;
   }
   
-  /* Adjust play button */
+  
   .play-button {
     padding: 0.7rem 1rem;
     font-size: 1.1rem;
@@ -1120,7 +1120,7 @@ body {
     margin: 10px auto;
   }
   
-  /* Ensure modals work well in landscape */
+  
   .modal-content {
     max-width: 95%;
     max-height: 85%;
@@ -1130,6 +1130,35 @@ body {
   .modal-theme-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.8rem;
+  }
+
+  .modal-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 90%;
+    max-width: 600px;
+  }
+  
+  .modal-character-grid,
+  .modal-theme-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+  
+  .character-modal,
+  .theme-modal {
+    width: 90%;
+    max-width: 500px;
   }
 }
 
@@ -1167,6 +1196,22 @@ body {
   
   .selected-theme-landscape .theme-card {
     height: 120px;
+  }
+}
+
+@media (max-width: 700px) and (orientation: landscape) {
+  .modal-content {
+    width: 95%;
+    padding: 0.8rem;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.2rem;
+  }
+  
+  .modal-character-grid,
+  .modal-theme-grid {
+    grid-template-columns: 1fr;
   }
 }
 

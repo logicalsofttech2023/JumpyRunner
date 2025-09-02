@@ -59,17 +59,6 @@ import backgroundMusic from "./Costom/Sounds/background-music.mp3";
 import jumpSound from "./Costom/Sounds/jump-sound.mp3";
 import coinSound from "./Costom/Sounds/coin-sound.mp3";
 
-import {
-  Modal,
-  Box,
-  IconButton,
-  Typography,
-  Grid,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-
 function App() {
   const canvasRef = useRef(null);
   const [gameState, setGameState] = useState("menu");
@@ -96,10 +85,8 @@ function App() {
 
   const [showCharacterModal, setShowCharacterModal] = useState(false);
   const [showThemeModal, setShowThemeModal] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const isLandscape = useMediaQuery("(orientation: landscape)");
 
+  // Add these functions to your component
   const openCharacterModal = () => setShowCharacterModal(true);
   const closeCharacterModal = () => setShowCharacterModal(false);
 
@@ -820,21 +807,6 @@ function App() {
 
   const showOrientationWarning = mobile && orientation === "portrait";
 
-  const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: isMobile ? "90%" : "80%",
-    maxWidth: 800,
-    maxHeight: "80vh",
-    bgcolor: "background.paper",
-    borderRadius: 2,
-    boxShadow: 24,
-    p: 2,
-    overflow: "auto",
-  };
-
   return (
     <>
       {showOrientationWarning && (
@@ -894,7 +866,10 @@ function App() {
 
               <div className="menu-sections-container">
                 {/* SELECT CHARACTER Section */}
-                <div className="menu-section character-section">
+                <div
+                  className="menu-section character-section"
+                  id="character-section"
+                >
                   <h2 className="menu-section-title">SELECT CHARACTER</h2>
                   <div className="character-grid">
                     {mobile && window.innerWidth > window.innerHeight ? (
@@ -960,7 +935,7 @@ function App() {
                 </div>
 
                 {/* SELECT THEME Section */}
-                <div className="menu-section theme-section">
+                <div className="menu-section theme-section" id="theme-section">
                   <h2 className="menu-section-title">SELECT THEME</h2>
                   <div className="theme-grid">
                     {mobile && window.innerWidth > window.innerHeight ? (
@@ -1019,152 +994,103 @@ function App() {
               </div>
             </div>
 
-            {/* MUI Character Modal */}
-            <Modal
-              open={showCharacterModal}
-              onClose={closeCharacterModal}
-              aria-labelledby="character-modal-title"
-            >
-              <Box sx={modalStyle}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    mb: 2,
-                  }}
+            {showCharacterModal && (
+              <div className="modal-overlay" onClick={closeCharacterModal}>
+                <div
+                  className="modal-content character-modal"
+                  onClick={(e) => e.stopPropagation()}
+                  style={
+                    mobile && window.innerWidth > window.innerHeight
+                      ? {
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                        }
+                      : {}
+                  }
                 >
-                  <Typography
-                    id="character-modal-title"
-                    variant="h5"
-                    component="h2"
-                  >
-                    SELECT CHARACTER
-                  </Typography>
-                  <IconButton onClick={closeCharacterModal}>
-                    <CloseIcon />
-                  </IconButton>
-                </Box>
-
-                <Grid container spacing={2}>
-                  {characters.map((character) => (
-                    <Grid item xs={6} sm={4} key={character.id}>
-                      <Box
-                        sx={{
-                          border: selectedCharacter === character.id ? 2 : 1,
-                          borderColor:
-                            selectedCharacter === character.id
-                              ? "primary.main"
-                              : "grey.300",
-                          borderRadius: 1,
-                          p: 1,
-                          cursor: "pointer",
-                          "&:hover": {
-                            backgroundColor: "action.hover",
-                          },
-                        }}
+                  <div className="modal-header">
+                    <h2>SELECT CHARACTER</h2>
+                    <button
+                      className="modal-close"
+                      onClick={closeCharacterModal}
+                    >
+                      ×
+                    </button>
+                  </div>
+                  <div className="modal-character-grid">
+                    {characters.map((character) => (
+                      <div
+                        key={character.id}
+                        className={`character-card ${
+                          selectedCharacter === character.id ? "selected" : ""
+                        }`}
                         onClick={() => {
                           selectCharacter(character.id);
                           closeCharacterModal();
                         }}
                       >
-                        <img
-                          src={character.preview}
-                          alt={character.name}
-                          style={{ width: "100%", height: "100px" }}
-                        />
-                        <Typography variant="subtitle1" sx={{ mt: 1 }}>
-                          {character.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {character.description}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            </Modal>
+                        <div className="character-image">
+                          <img src={character.preview} alt={character.name} />
+                        </div>
+                        <div className="character-info">
+                          <h3>{character.name}</h3>
+                          <p>{character.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
 
-            {/* MUI Theme Modal */}
-            <Modal
-              open={showThemeModal}
-              onClose={closeThemeModal}
-              aria-labelledby="theme-modal-title"
-            >
-              <Box sx={modalStyle}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    mb: 2,
-                  }}
+            {showThemeModal && (
+              <div className="modal-overlay" onClick={closeThemeModal}>
+                <div
+                  className="modal-content theme-modal"
+                  onClick={(e) => e.stopPropagation()}
+                  style={
+                    mobile && window.innerWidth > window.innerHeight
+                      ? {
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                        }
+                      : {}
+                  }
                 >
-                  <Typography
-                    id="theme-modal-title"
-                    variant="h5"
-                    component="h2"
-                  >
-                    SELECT THEME
-                  </Typography>
-                  <IconButton onClick={closeThemeModal}>
-                    <CloseIcon />
-                  </IconButton>
-                </Box>
-
-                <Grid container spacing={2}>
-                  {themes.map((theme) => (
-                    <Grid item xs={6} sm={4} key={theme.id}>
-                      <Box
-                        sx={{
-                          position: "relative",
-                          border: selectedTheme === theme.image ? 2 : 1,
-                          borderColor:
-                            selectedTheme === theme.image
-                              ? "primary.main"
-                              : "grey.300",
-                          borderRadius: 1,
-                          overflow: "hidden",
-                          cursor: "pointer",
-                          "&:hover": {
-                            opacity: 0.9,
-                          },
-                        }}
+                  <div className="modal-header">
+                    <h2>SELECT THEME</h2>
+                    <button className="modal-close" onClick={closeThemeModal}>
+                      ×
+                    </button>
+                  </div>
+                  <div className="modal-theme-grid">
+                    {themes.map((theme) => (
+                      <div
+                        key={theme.id}
+                        className={`theme-card ${
+                          selectedTheme === theme.image ? "selected" : ""
+                        }`}
                         onClick={() => {
                           selectTheme(theme.image);
                           closeThemeModal();
                         }}
                       >
-                        <img
-                          src={theme.image}
-                          alt={theme.name}
-                          style={{
-                            width: "100%",
-                            height: 120,
-                            objectFit: "cover",
-                          }}
-                        />
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            bgcolor: "rgba(0, 0, 0, 0.7)",
-                            color: "white",
-                            p: 1,
-                            textAlign: "center",
-                          }}
-                        >
-                          <Typography variant="body2">{theme.name}</Typography>
-                        </Box>
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            </Modal>
+                        <div className="theme-image">
+                          <img src={theme.image} alt={theme.name} />
+                          <div className="theme-overlay">
+                            <span>{theme.name}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           {isTransitioning && <div className="transition-overlay"></div>}
         </div>
