@@ -86,7 +86,6 @@ function App() {
   const [showCharacterModal, setShowCharacterModal] = useState(false);
   const [showThemeModal, setShowThemeModal] = useState(false);
 
-  // Add these functions to your component
   const openCharacterModal = () => setShowCharacterModal(true);
   const closeCharacterModal = () => setShowCharacterModal(false);
 
@@ -430,7 +429,7 @@ function App() {
     const PLAYER_HEIGHT = mobile ? 94 / 2 : 94 / 1.5;
 
     // Adjust jump height for mobile
-    const MAX_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.6 : GAME_HEIGHT * 0.8;
+    const MAX_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.8 : GAME_HEIGHT * 0.8;
     const MIN_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.2 : GAME_HEIGHT * 0.3;
 
     const GROUND_WIDTH = 2400;
@@ -999,16 +998,7 @@ function App() {
                 <div
                   className="modal-content character-modal"
                   onClick={(e) => e.stopPropagation()}
-                  style={
-                    mobile && window.innerWidth > window.innerHeight
-                      ? {
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                        }
-                      : {}
-                  }
+                  
                 >
                   <div className="modal-header">
                     <h2>SELECT CHARACTER</h2>
@@ -1039,7 +1029,6 @@ function App() {
                         </div>
                         <div className="modal-character-info">
                           <h3>{character.name}</h3>
-                          <p>{character.description}</p>
                         </div>
                       </div>
                     ))}
@@ -1053,16 +1042,7 @@ function App() {
                 <div
                   className="modal-content theme-modal"
                   onClick={(e) => e.stopPropagation()}
-                  style={
-                    mobile && window.innerWidth > window.innerHeight
-                      ? {
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                        }
-                      : {}
-                  }
+                  
                 >
                   <div className="modal-header">
                     <h2>SELECT THEME</h2>
