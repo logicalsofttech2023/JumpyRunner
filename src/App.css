@@ -1169,7 +1169,7 @@ body {
 }
 
 /* Mobile landscape specific adjustments */
-@media (max-width: 768px) and (orientation: landscape) {
+@media (max-width: 900px) and (orientation: landscape) {
   .menu-content {
     height: auto;
     max-height: 98vh;
