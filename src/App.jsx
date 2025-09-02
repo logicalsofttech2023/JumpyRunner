@@ -59,6 +59,17 @@ import backgroundMusic from "./Costom/Sounds/background-music.mp3";
 import jumpSound from "./Costom/Sounds/jump-sound.mp3";
 import coinSound from "./Costom/Sounds/coin-sound.mp3";
 
+import {
+  Modal,
+  Box,
+  IconButton,
+  Typography,
+  Grid,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+
 function App() {
   const canvasRef = useRef(null);
   const [gameState, setGameState] = useState("menu");
@@ -85,8 +96,10 @@ function App() {
 
   const [showCharacterModal, setShowCharacterModal] = useState(false);
   const [showThemeModal, setShowThemeModal] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isLandscape = useMediaQuery("(orientation: landscape)");
 
-  // Add these functions to your component
   const openCharacterModal = () => setShowCharacterModal(true);
   const closeCharacterModal = () => setShowCharacterModal(false);
 
@@ -807,6 +820,21 @@ function App() {
 
   const showOrientationWarning = mobile && orientation === "portrait";
 
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: isMobile ? "90%" : "80%",
+    maxWidth: 800,
+    maxHeight: "80vh",
+    bgcolor: "background.paper",
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 2,
+    overflow: "auto",
+  };
+
   return (
     <>
       {showOrientationWarning && (
@@ -860,188 +888,283 @@ function App() {
             </div>
 
             <div className="menu-options">
-  <button className="menu-button play-button" onClick={startGame}>
-    PLAY GAME
-  </button>
+              <button className="menu-button play-button" onClick={startGame}>
+                PLAY GAME
+              </button>
 
-  <div className="menu-sections-container">
-    {/* SELECT CHARACTER Section */}
-    <div className="menu-section character-section">
-      <h2 className="menu-section-title">SELECT CHARACTER</h2>
-      <div className="character-grid">
-        {mobile && window.innerWidth > window.innerHeight ? (
-          // Mobile landscape - show only selected character
-          <div className="selected-character-landscape">
-            <div 
-              className="character-card selected"
-              onClick={openCharacterModal}
-            >
-              <div className="character-image">
-                <img 
-                  src={characters.find(c => c.id === selectedCharacter)?.preview} 
-                  alt={characters.find(c => c.id === selectedCharacter)?.name} 
-                />
-              </div>
-              <div className="character-info">
-                <h3>{characters.find(c => c.id === selectedCharacter)?.name}</h3>
-                <p>Tap to change</p>
-              </div>
-            </div>
-            <div className="change-button" onClick={openCharacterModal}>
-              Change
-            </div>
-          </div>
-        ) : (
-          // Default view (portrait or desktop)
-          characters.map((character) => (
-            <div
-              key={character.id}
-              className={`character-card ${
-                selectedCharacter === character.id ? "selected" : ""
-              }`}
-              onClick={() => selectCharacter(character.id)}
-            >
-              <div className="character-image">
-                <img src={character.preview} alt={character.name} />
-              </div>
-              <div className="character-info">
-                <h3>{character.name}</h3>
-                <p>{character.description}</p>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
-
-    {/* SELECT THEME Section */}
-    <div className="menu-section theme-section">
-      <h2 className="menu-section-title">SELECT THEME</h2>
-      <div className="theme-grid">
-        {mobile && window.innerWidth > window.innerHeight ? (
-          // Mobile landscape - show only selected theme
-          <div className="selected-theme-landscape">
-            <div 
-              className="theme-card selected"
-              onClick={openThemeModal}
-            >
-              <div className="theme-image">
-                <img 
-                  src={themes.find(t => t.image === selectedTheme)?.image} 
-                  alt={themes.find(t => t.image === selectedTheme)?.name} 
-                />
-                <div className="theme-overlay">
-                  <span>{themes.find(t => t.image === selectedTheme)?.name}</span>
-                </div>
-              </div>
-            </div>
-            <div className="change-button" onClick={openThemeModal}>
-              Change
-            </div>
-          </div>
-        ) : (
-          // Default view (portrait or desktop)
-          themes.map((theme) => (
-            <div
-              key={theme.id}
-              className={`theme-card ${
-                selectedTheme === theme.image ? "selected" : ""
-              }`}
-              onClick={() => selectTheme(theme.image)}
-            >
-              <div className="theme-image">
-                <img src={theme.image} alt={theme.name} />
-                <div className="theme-overlay">
-                  <span>{theme.name}</span>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
-  </div>
-</div>
-
-            {/* Character Selection Modal */}
-            {showCharacterModal && (
-              <div className="modal-overlay" onClick={closeCharacterModal}>
-                <div
-                  className="modal-content"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="modal-header">
-                    <h2>SELECT CHARACTER</h2>
-                    <button
-                      className="modal-close"
-                      onClick={closeCharacterModal}
-                    >
-                      ×
-                    </button>
+              <div className="menu-sections-container">
+                {/* SELECT CHARACTER Section */}
+                <div className="menu-section character-section">
+                  <h2 className="menu-section-title">SELECT CHARACTER</h2>
+                  <div className="character-grid">
+                    {mobile && window.innerWidth > window.innerHeight ? (
+                      // Mobile landscape - show only selected character
+                      <div className="selected-character-landscape">
+                        <div
+                          className="character-card selected"
+                          onClick={openCharacterModal}
+                        >
+                          <div className="character-image">
+                            <img
+                              src={
+                                characters.find(
+                                  (c) => c.id === selectedCharacter
+                                )?.preview
+                              }
+                              alt={
+                                characters.find(
+                                  (c) => c.id === selectedCharacter
+                                )?.name
+                              }
+                            />
+                          </div>
+                          <div className="character-info">
+                            <h3>
+                              {
+                                characters.find(
+                                  (c) => c.id === selectedCharacter
+                                )?.name
+                              }
+                            </h3>
+                            <p>Tap to change</p>
+                          </div>
+                        </div>
+                        <div
+                          className="change-button"
+                          onClick={openCharacterModal}
+                        >
+                          Change
+                        </div>
+                      </div>
+                    ) : (
+                      // Default view (portrait or desktop)
+                      characters.map((character) => (
+                        <div
+                          key={character.id}
+                          className={`character-card ${
+                            selectedCharacter === character.id ? "selected" : ""
+                          }`}
+                          onClick={() => selectCharacter(character.id)}
+                        >
+                          <div className="character-image">
+                            <img src={character.preview} alt={character.name} />
+                          </div>
+                          <div className="character-info">
+                            <h3>{character.name}</h3>
+                            <p>{character.description}</p>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
-                  <div className="modal-character-grid">
-                    {characters.map((character) => (
-                      <div
-                        key={character.id}
-                        className={`character-card ${
-                          selectedCharacter === character.id ? "selected" : ""
-                        }`}
+                </div>
+
+                {/* SELECT THEME Section */}
+                <div className="menu-section theme-section">
+                  <h2 className="menu-section-title">SELECT THEME</h2>
+                  <div className="theme-grid">
+                    {mobile && window.innerWidth > window.innerHeight ? (
+                      // Mobile landscape - show only selected theme
+                      <div className="selected-theme-landscape">
+                        <div
+                          className="theme-card selected"
+                          onClick={openThemeModal}
+                        >
+                          <div className="theme-image">
+                            <img
+                              src={
+                                themes.find((t) => t.image === selectedTheme)
+                                  ?.image
+                              }
+                              alt={
+                                themes.find((t) => t.image === selectedTheme)
+                                  ?.name
+                              }
+                            />
+                            <div className="theme-overlay">
+                              <span>
+                                {
+                                  themes.find((t) => t.image === selectedTheme)
+                                    ?.name
+                                }
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="change-button" onClick={openThemeModal}>
+                          Change
+                        </div>
+                      </div>
+                    ) : (
+                      // Default view (portrait or desktop)
+                      themes.map((theme) => (
+                        <div
+                          key={theme.id}
+                          className={`theme-card ${
+                            selectedTheme === theme.image ? "selected" : ""
+                          }`}
+                          onClick={() => selectTheme(theme.image)}
+                        >
+                          <div className="theme-image">
+                            <img src={theme.image} alt={theme.name} />
+                            <div className="theme-overlay">
+                              <span>{theme.name}</span>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* MUI Character Modal */}
+            <Modal
+              open={showCharacterModal}
+              onClose={closeCharacterModal}
+              aria-labelledby="character-modal-title"
+            >
+              <Box sx={modalStyle}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 2,
+                  }}
+                >
+                  <Typography
+                    id="character-modal-title"
+                    variant="h5"
+                    component="h2"
+                  >
+                    SELECT CHARACTER
+                  </Typography>
+                  <IconButton onClick={closeCharacterModal}>
+                    <CloseIcon />
+                  </IconButton>
+                </Box>
+
+                <Grid container spacing={2}>
+                  {characters.map((character) => (
+                    <Grid item xs={6} sm={4} key={character.id}>
+                      <Box
+                        sx={{
+                          border: selectedCharacter === character.id ? 2 : 1,
+                          borderColor:
+                            selectedCharacter === character.id
+                              ? "primary.main"
+                              : "grey.300",
+                          borderRadius: 1,
+                          p: 1,
+                          cursor: "pointer",
+                          "&:hover": {
+                            backgroundColor: "action.hover",
+                          },
+                        }}
                         onClick={() => {
                           selectCharacter(character.id);
                           closeCharacterModal();
                         }}
                       >
-                        <div className="character-image">
-                          <img src={character.preview} alt={character.name} />
-                        </div>
-                        <div className="character-info">
-                          <h3>{character.name}</h3>
-                          <p>{character.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+                        <img
+                          src={character.preview}
+                          alt={character.name}
+                          style={{ width: "100%", height: "auto" }}
+                        />
+                        <Typography variant="subtitle1" sx={{ mt: 1 }}>
+                          {character.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {character.description}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </Modal>
 
-            {/* Theme Selection Modal */}
-            {showThemeModal && (
-              <div className="modal-overlay" onClick={closeThemeModal}>
-                <div
-                  className="modal-content"
-                  onClick={(e) => e.stopPropagation()}
+            {/* MUI Theme Modal */}
+            <Modal
+              open={showThemeModal}
+              onClose={closeThemeModal}
+              aria-labelledby="theme-modal-title"
+            >
+              <Box sx={modalStyle}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 2,
+                  }}
                 >
-                  <div className="modal-header">
-                    <h2>SELECT THEME</h2>
-                    <button className="modal-close" onClick={closeThemeModal}>
-                      ×
-                    </button>
-                  </div>
-                  <div className="modal-theme-grid">
-                    {themes.map((theme) => (
-                      <div
-                        key={theme.id}
-                        className={`theme-card ${
-                          selectedTheme === theme.image ? "selected" : ""
-                        }`}
+                  <Typography
+                    id="theme-modal-title"
+                    variant="h5"
+                    component="h2"
+                  >
+                    SELECT THEME
+                  </Typography>
+                  <IconButton onClick={closeThemeModal}>
+                    <CloseIcon />
+                  </IconButton>
+                </Box>
+
+                <Grid container spacing={2}>
+                  {themes.map((theme) => (
+                    <Grid item xs={6} sm={4} key={theme.id}>
+                      <Box
+                        sx={{
+                          position: "relative",
+                          border: selectedTheme === theme.image ? 2 : 1,
+                          borderColor:
+                            selectedTheme === theme.image
+                              ? "primary.main"
+                              : "grey.300",
+                          borderRadius: 1,
+                          overflow: "hidden",
+                          cursor: "pointer",
+                          "&:hover": {
+                            opacity: 0.9,
+                          },
+                        }}
                         onClick={() => {
                           selectTheme(theme.image);
                           closeThemeModal();
                         }}
                       >
-                        <div className="theme-image">
-                          <img src={theme.image} alt={theme.name} />
-                          <div className="theme-overlay">
-                            <span>{theme.name}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+                        <img
+                          src={theme.image}
+                          alt={theme.name}
+                          style={{
+                            width: "100%",
+                            height: 120,
+                            objectFit: "cover",
+                          }}
+                        />
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            bgcolor: "rgba(0, 0, 0, 0.7)",
+                            color: "white",
+                            p: 1,
+                            textAlign: "center",
+                          }}
+                        >
+                          <Typography variant="body2">{theme.name}</Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </Modal>
           </div>
           {isTransitioning && <div className="transition-overlay"></div>}
         </div>
