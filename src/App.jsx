@@ -77,13 +77,15 @@ function App() {
   );
   const [showCharacterModal, setShowCharacterModal] = useState(false);
   const [showThemeModal, setShowThemeModal] = useState(false);
-
-  // Audio refs
   const backgroundMusicRef = useRef(null);
   const jumpSoundRef = useRef(null);
   const coinSoundRef = useRef(null);
+  const [mobile, setMobile] = useState(false);
 
-  // Character data
+  useEffect(() => {
+    setMobile(isMobile);
+  }, []);
+
   const characters = [
     {
       id: "dino",
@@ -138,7 +140,6 @@ function App() {
     },
   ];
 
-  // Theme data
   const themes = [
     { id: "desert", name: "Desert Dunes", image: themeImg },
     { id: "forest", name: "Mystic Forest", image: theme1Img },
@@ -146,12 +147,10 @@ function App() {
     { id: "cave", name: "Dark Cave", image: theme5Img },
   ];
 
-  // Check orientation function
   const checkOrientation = () => {
     return window.innerHeight > window.innerWidth ? "portrait" : "landscape";
   };
 
-  // Add this function to handle manual full screen toggle
   const toggleFullScreen = async () => {
     try {
       if (!document.fullscreenElement) {
@@ -160,7 +159,7 @@ function App() {
 
         // Lock orientation to landscape on mobile after entering full screen
         if (
-          isMobile &&
+          mobile &&
           window.screen.orientation &&
           window.screen.orientation.lock
         ) {
@@ -180,7 +179,6 @@ function App() {
     }
   };
 
-  // Initialize audio elements
   useEffect(() => {
     backgroundMusicRef.current = new Audio(backgroundMusic);
     backgroundMusicRef.current.loop = true;
@@ -201,7 +199,6 @@ function App() {
     };
   }, []);
 
-  // Handle orientation changes
   useEffect(() => {
     const handleOrientationChange = () => {
       setOrientation(checkOrientation());
@@ -236,10 +233,9 @@ function App() {
     };
   }, []);
 
-  // Lock orientation and enter full screen when game starts on mobile
   useEffect(() => {
     const handleMobileGameStart = async () => {
-      if (isMobile && gameState === "playing") {
+      if (mobile && gameState === "playing") {
         // Enter full screen
         if (!document.fullscreenElement) {
           try {
@@ -263,9 +259,8 @@ function App() {
     };
 
     handleMobileGameStart();
-  }, [gameState, isMobile]);
+  }, [gameState, mobile]);
 
-  // Handle sound toggle
   const toggleSound = () => {
     const newSoundState = !soundEnabled;
     setSoundEnabled(newSoundState);
@@ -400,7 +395,7 @@ function App() {
     let GAME_WIDTH, GAME_HEIGHT;
 
     // Calculate game dimensions based on device
-    if (isMobile) {
+    if (mobile) {
       // For mobile, use the full available space
       GAME_WIDTH = window.innerWidth;
       GAME_HEIGHT = window.innerHeight;
@@ -415,31 +410,31 @@ function App() {
     }
 
     // Adjust player size for mobile
-    const PLAYER_WIDTH = isMobile ? 88 / 2 : 88 / 1.5;
-    const PLAYER_HEIGHT = isMobile ? 94 / 2 : 94 / 1.5;
+    const PLAYER_WIDTH = mobile ? 88 / 2 : 88 / 1.5;
+    const PLAYER_HEIGHT = mobile ? 94 / 2 : 94 / 1.5;
 
     // Adjust jump height for mobile
-    const MAX_JUMP_HEIGHT = isMobile ? GAME_HEIGHT * 0.6 : GAME_HEIGHT * 0.8;
-    const MIN_JUMP_HEIGHT = isMobile ? GAME_HEIGHT * 0.2 : GAME_HEIGHT * 0.3;
+    const MAX_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.6 : GAME_HEIGHT * 0.8;
+    const MIN_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.2 : GAME_HEIGHT * 0.3;
 
     const GROUND_WIDTH = 2400;
-    const GROUND_HEIGHT = isMobile ? 30 : 24;
+    const GROUND_HEIGHT = mobile ? 30 : 24;
     const GROUND_AND_CACTUS_SPEED = 0.5;
 
     const CACTI_CONFIG = [
       {
-        width: isMobile ? 150 / 2 : 150 / 1.5,
-        height: isMobile ? 130 / 2 : 130 / 1.5,
+        width: mobile ? 150 / 2 : 150 / 1.5,
+        height: mobile ? 130 / 2 : 130 / 1.5,
         image: bhalu,
       },
       {
-        width: isMobile ? 120 / 2 : 120 / 1.5,
-        height: isMobile ? 130 / 2 : 130 / 1.5,
+        width: mobile ? 120 / 2 : 120 / 1.5,
+        height: mobile ? 130 / 2 : 130 / 1.5,
         image: tiger,
       },
       {
-        width: isMobile ? 150 / 2 : 150 / 1.5,
-        height: isMobile ? 130 / 2 : 130 / 1.5,
+        width: mobile ? 150 / 2 : 150 / 1.5,
+        height: mobile ? 130 / 2 : 130 / 1.5,
         image: volcano,
       },
     ];
@@ -552,7 +547,7 @@ function App() {
       if (document.fullscreenElement) {
         GAME_WIDTH = window.innerWidth;
         GAME_HEIGHT = window.innerHeight;
-      } else if (isMobile) {
+      } else if (mobile) {
         // For mobile, use full screen dimensions
         GAME_WIDTH = window.innerWidth;
         GAME_HEIGHT = window.innerHeight;
@@ -570,7 +565,7 @@ function App() {
     }
 
     function getScaleRatio() {
-      if (isMobile) {
+      if (mobile) {
         // Different scaling for mobile devices
         return Math.min(window.innerWidth / 400, window.innerHeight / 250);
       }
@@ -578,7 +573,7 @@ function App() {
     }
 
     function showGameOver() {
-      const fontSize = isMobile ? 40 * scaleRatio : 70 * scaleRatio;
+      const fontSize = mobile ? 40 * scaleRatio : 70 * scaleRatio;
       ctx.font = `${fontSize}px 'Luckiest Guy', cursive`;
       ctx.fillStyle = "#ff4d4d";
       ctx.strokeStyle = "#000";
@@ -591,9 +586,9 @@ function App() {
 
     function drawCoinsCounter() {
       const coinsInfo = coinsController.getCoinsInfo();
-      const fontSize = isMobile ? 12 * scaleRatio : 15 * scaleRatio;
-      const padding = isMobile ? 4 * scaleRatio : 5 * scaleRatio;
-      const coinSize = isMobile ? 16 * scaleRatio : 20 * scaleRatio;
+      const fontSize = mobile ? 12 * scaleRatio : 15 * scaleRatio;
+      const padding = mobile ? 4 * scaleRatio : 5 * scaleRatio;
+      const coinSize = mobile ? 16 * scaleRatio : 20 * scaleRatio;
 
       // Calculate dimensions
       const text = `Coins: ${coinsInfo.collected}/${coinsInfo.total}`;
@@ -667,7 +662,7 @@ function App() {
     }
 
     function showStartGameText() {
-      const fontSize = isMobile ? 20 * scaleRatio : 40 * scaleRatio;
+      const fontSize = mobile ? 20 * scaleRatio : 40 * scaleRatio;
       ctx.font = `${fontSize}px 'Luckiest Guy', cursive`;
       ctx.fillStyle = "#fff";
       ctx.strokeStyle = "#000";
@@ -794,8 +789,7 @@ function App() {
     setSelectedCharacter(characterId);
   };
 
-  // Show orientation warning on mobile in portrait mode
-  const showOrientationWarning = isMobile && orientation === "portrait";
+  const showOrientationWarning = mobile && orientation === "portrait";
 
   return (
     <>
@@ -1097,7 +1091,7 @@ function App() {
 
       {gameState === "playing" && !showOrientationWarning && (
         <div className={`game-container ${isFullScreen ? "fullscreen" : ""}`}>
-          {isMobile && (
+          {mobile && (
             <button
               className="fullscreen-button floating-fullscreen-btn"
               onClick={toggleFullScreen}
