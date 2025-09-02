@@ -30,7 +30,7 @@ body {
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
   min-height: 100vh;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   color: var(--text-color);
 }
 
