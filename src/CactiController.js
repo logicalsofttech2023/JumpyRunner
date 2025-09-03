@@ -7,12 +7,13 @@ export default class CactiController {
   nextCactusInterval = null;
   cacti = [];
 
-  constructor(ctx, cactiImages, scaleRatio, speed) {
+  constructor(ctx, cactiImages, scaleRatio, speed, gameHeight) {
     this.ctx = ctx;
     this.canvas = ctx.canvas;
     this.cactiImages = cactiImages;
     this.scaleRatio = scaleRatio;
     this.speed = speed;
+    this.gameHeight = gameHeight;
 
     this.setNextCactusTime();
   }
@@ -72,7 +73,9 @@ export default class CactiController {
   }
 
   draw() {
-    this.cacti.forEach((cactus) => cactus.draw());
+    this.cacti.forEach((cactus) => {
+      cactus.draw()
+    });
   }
 
   collideWith(sprite) {

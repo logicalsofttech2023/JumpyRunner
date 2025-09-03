@@ -11,24 +11,51 @@ import themeImg from "./Themes/Theme/Theme.png";
 import ThemeObstacle1 from "./Themes/Theme/ThemeObstacle1.png";
 import ThemeObstacle2 from "./Themes/Theme/ThemeObstacle2.png";
 import ThemeObstacle3 from "./Themes/Theme/ThemeObstacle3.png";
+import ThemeGround from "./Themes/Theme/ThemeGround.png";
 
 // Theme1 with obstacles
 import theme1Img from "./Themes/Theme1/Theme1.jpg";
 import Theme1Obstacle1 from "./Themes/Theme1/Theme1Obstacle1.png";
 import Theme1Obstacle2 from "./Themes/Theme1/Theme1Obstacle2.png";
 import Theme1Obstacle3 from "./Themes/Theme1/Theme1Obstacle3.png";
+import Theme1Ground from "./Themes/Theme1/Theme1Ground.png";
 
 // Theme2 with obstacles
 import theme2Img from "./Themes/Theme2/Theme2.jfif";
 import Theme2Obstacle1 from "./Themes/Theme2/Theme2Obstacle1.png";
 import Theme2Obstacle2 from "./Themes/Theme2/Theme2Obstacle2.png";
 import Theme2Obstacle3 from "./Themes/Theme2/Theme2Obstacle3.png";
+import Theme2Ground from "./Themes/Theme2/Theme2Ground.png";
 
 // Theme3 with obstacles
 import theme3Img from "./Themes/Theme3/Theme3.jpg";
 import Theme3Obstacle1 from "./Themes/Theme3/Theme3Obstacle1.png";
 import Theme3Obstacle2 from "./Themes/Theme3/Theme3Obstacle2.png";
 import Theme3Obstacle3 from "./Themes/Theme3/Theme3Obstacle3.png";
+import Theme3Ground from "./Themes/Theme3/Theme3Ground.png";
+
+const themeObstacles = {
+  desert: [
+    { image: ThemeObstacle1, width: 200, height: 200 },
+    { image: ThemeObstacle2, width: 120, height: 200 },
+    { image: ThemeObstacle3, width: 150, height: 200 },
+  ],
+  forest: [
+    { image: Theme1Obstacle1, width: 180, height: 180 },
+    { image: Theme1Obstacle2, width: 110, height: 180 },
+    { image: Theme1Obstacle3, width: 140, height: 180 },
+  ],
+  mountain: [
+    { image: Theme2Obstacle1, width: 180, height: 180 },
+    { image: Theme2Obstacle2, width: 130, height: 180 },
+    { image: Theme2Obstacle3, width: 160, height: 180 },
+  ],
+  cave: [
+    { image: Theme3Obstacle1, width: 200, height: 200 },
+    { image: Theme3Obstacle2, width: 200, height: 200 },
+    { image: Theme3Obstacle3, width: 200, height: 200 },
+  ],
+};
 
 // Import character images
 import dinoDefault from "./Costom/Char2/step1.png";
@@ -77,6 +104,28 @@ import jumpSound from "./Costom/Sounds/jump-sound.mp3";
 import coinSound from "./Costom/Sounds/coin-sound.mp3";
 
 function App() {
+  const themeGrounds = {
+    desert: {
+      image: ThemeGround,
+      width: 2800,
+      height: 80,
+    },
+    forest: {
+      image: Theme1Ground,
+      width: 2800,
+      height: 110,
+    },
+    mountain: {
+      image: Theme2Ground,
+      width: 2200,
+      height: 50,
+    },
+    cave: {
+      image: Theme3Ground,
+      width: 2800,
+      height: 50,
+    },
+  };
   const canvasRef = useRef(null);
   const [gameState, setGameState] = useState("menu");
   const [selectedTheme, setSelectedTheme] = useState(theme3Img);
@@ -452,27 +501,19 @@ function App() {
     const MAX_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.8 : GAME_HEIGHT * 1;
     const MIN_JUMP_HEIGHT = mobile ? GAME_HEIGHT * 0.2 : GAME_HEIGHT * 0.3;
 
-    const GROUND_WIDTH = 2400;
-    const GROUND_HEIGHT = mobile ? 30 : 24;
     const GROUND_AND_CACTUS_SPEED = 0.5;
 
-    const CACTI_CONFIG = [
-      {
-        width: mobile ? 150 / 2 : 200 / 1.5,
-        height: mobile ? 130 / 2 : 200 / 1.5,
-        image: Theme3Obstacle1,
-      },
-      {
-        width: mobile ? 120 / 2 : 200 / 1.5,
-        height: mobile ? 130 / 2 : 200 / 1.5,
-        image: Theme3Obstacle2,
-      },
-      {
-        width: mobile ? 150 / 2 : 200 / 1.5,
-        height: mobile ? 130 / 2 : 200 / 1.5,
-        image: Theme3Obstacle3,
-      },
-    ];
+    const currentTheme =
+      themes.find((t) => t.image === selectedTheme)?.id || "cave";
+    const GROUND_WIDTH = themeGrounds[currentTheme].width;
+    const GROUND_HEIGHT =
+      themeGrounds[currentTheme].height * (mobile ? 1.25 : 1);
+
+    const CACTI_CONFIG = themeObstacles[currentTheme].map((obstacle) => ({
+      width: mobile ? obstacle.width / 2 : obstacle.width / 1.5,
+      height: mobile ? obstacle.height / 2 : obstacle.height / 1.5,
+      image: obstacle.image,
+    }));
 
     // Coin setup
     const coinImage = new Image();
@@ -531,7 +572,7 @@ function App() {
         groundHeightInGame,
         GROUND_AND_CACTUS_SPEED,
         scaleRatio,
-        GAME_HEIGHT
+        themeGrounds[currentTheme].image
       );
 
       const cactiImages = CACTI_CONFIG.map((cactus) => {
@@ -577,13 +618,10 @@ function App() {
 
     function setScreen() {
       scaleRatio = getScaleRatio();
-
-      // Use window's inner dimensions in full screen
       if (document.fullscreenElement) {
         GAME_WIDTH = window.innerWidth;
         GAME_HEIGHT = window.innerHeight;
       } else if (mobile) {
-        // For mobile, use full screen dimensions
         GAME_WIDTH = window.innerWidth;
         GAME_HEIGHT = window.innerHeight;
       } else if (window.innerWidth / window.innerHeight > ASPECT_RATIO) {
@@ -601,7 +639,6 @@ function App() {
 
     function getScaleRatio() {
       if (mobile) {
-        // Different scaling for mobile devices
         return Math.min(window.innerWidth / 400, window.innerHeight / 250);
       }
       return Math.min(window.innerWidth / 800, window.innerHeight / 350);
@@ -625,7 +662,6 @@ function App() {
       const padding = mobile ? 4 * scaleRatio : 5 * scaleRatio;
       const coinSize = mobile ? 16 * scaleRatio : 20 * scaleRatio;
 
-      // Calculate dimensions
       const text = `Coins: ${coinsInfo.collected}/${coinsInfo.total}`;
       const textWidth = ctx.measureText(text).width;
       const totalWidth = coinSize + padding + textWidth + padding * 2;

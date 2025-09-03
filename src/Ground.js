@@ -1,5 +1,5 @@
 export default class Ground {
-  constructor(ctx, width, height, speed, scaleRatio) {
+  constructor(ctx, width, height, speed, scaleRatio, groundImageSrc) {
     this.ctx = ctx;
     this.canvas = ctx.canvas;
     this.width = width;
@@ -11,7 +11,7 @@ export default class Ground {
     this.y = this.canvas.height - this.height;
 
     this.groundImage = new Image();
-    this.groundImage.src = "Costom/ground.png";
+    this.groundImage.src = groundImageSrc;
   }
 
   update(gameSpeed, frameTimeDelta) {
