@@ -919,132 +919,48 @@ function App() {
                 PLAY GAME
               </button>
 
-              <div className="menu-sections-container">
-                {/* SELECT CHARACTER Section */}
-                <div
-                  className="menu-section character-section"
-                  id="character-section"
-                >
-                  <h2 className="menu-section-title">SELECT CHARACTER</h2>
-                  <div className="character-grid">
-                    {mobile && window.innerWidth > window.innerHeight ? (
-                      // Mobile landscape - show only selected character
-                      <div className="selected-character-landscape">
-                        <div
-                          className="character-card selected"
-                          onClick={openCharacterModal}
-                        >
-                          <div className="character-image">
-                            <img
-                              src={
-                                characters.find(
-                                  (c) => c.id === selectedCharacter
-                                )?.preview
-                              }
-                              alt={
-                                characters.find(
-                                  (c) => c.id === selectedCharacter
-                                )?.name
-                              }
-                            />
-                          </div>
-                          <div className="character-info">
-                            <h3>
-                              {
-                                characters.find(
-                                  (c) => c.id === selectedCharacter
-                                )?.name
-                              }
-                            </h3>
-                            <p>Tap to change</p>
-                          </div>
-                        </div>
-                        <div
-                          className="change-button"
-                          onClick={openCharacterModal}
-                        >
-                          Change
-                        </div>
+              <div className="menu-section">
+                <h2 className="menu-section-title">SELECT CHARACTER</h2>
+                <div className="character-grid">
+                  {characters.map((character) => (
+                    <div
+                      key={character.id}
+                      className={`character-card ${
+                        selectedCharacter === character.id ? "selected" : ""
+                      }`}
+                      onClick={() => selectCharacter(character.id)}
+                    >
+                      <div className="character-image">
+                        <img src={character.preview} alt={character.name} />
                       </div>
-                    ) : (
-                      // Default view (portrait or desktop)
-                      characters.map((character) => (
-                        <div
-                          key={character.id}
-                          className={`character-card ${
-                            selectedCharacter === character.id ? "selected" : ""
-                          }`}
-                          onClick={() => selectCharacter(character.id)}
-                        >
-                          <div className="character-image">
-                            <img src={character.preview} alt={character.name} />
-                          </div>
-                          <div className="character-info">
-                            <h3>{character.name}</h3>
-                            <p>{character.description}</p>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
+                      <div className="character-info">
+                        <h3>{character.name}</h3>
+                        <p>{character.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
+              </div>
 
-                {/* SELECT THEME Section */}
-                <div className="menu-section theme-section" id="theme-section">
-                  <h2 className="menu-section-title">SELECT THEME</h2>
-                  <div className="theme-grid">
-                    {mobile && window.innerWidth > window.innerHeight ? (
-                      // Mobile landscape - show only selected theme
-                      <div className="selected-theme-landscape">
-                        <div
-                          className="theme-card selected"
-                          onClick={openThemeModal}
-                        >
-                          <div className="theme-image">
-                            <img
-                              src={
-                                themes.find((t) => t.image === selectedTheme)
-                                  ?.image
-                              }
-                              alt={
-                                themes.find((t) => t.image === selectedTheme)
-                                  ?.name
-                              }
-                            />
-                            <div className="theme-overlay">
-                              <span>
-                                {
-                                  themes.find((t) => t.image === selectedTheme)
-                                    ?.name
-                                }
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="change-button" onClick={openThemeModal}>
-                          Change
+              <div className="menu-section">
+                <h2 className="menu-section-title">SELECT THEME</h2>
+                <div className="theme-grid">
+                  {themes.map((theme) => (
+                    <div
+                      key={theme.id}
+                      className={`theme-card ${
+                        selectedTheme === theme.image ? "selected" : ""
+                      }`}
+                      onClick={() => selectTheme(theme.image)}
+                    >
+                      <div className="theme-image">
+                        <img src={theme.image} alt={theme.name} />
+                        <div className="theme-overlay">
+                          <span>{theme.name}</span>
                         </div>
                       </div>
-                    ) : (
-                      // Default view (portrait or desktop)
-                      themes.map((theme) => (
-                        <div
-                          key={theme.id}
-                          className={`theme-card ${
-                            selectedTheme === theme.image ? "selected" : ""
-                          }`}
-                          onClick={() => selectTheme(theme.image)}
-                        >
-                          <div className="theme-image">
-                            <img src={theme.image} alt={theme.name} />
-                            <div className="theme-overlay">
-                              <span>{theme.name}</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
