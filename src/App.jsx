@@ -149,15 +149,6 @@ function App() {
     setMobile(isMobile);
   }, []);
 
-  const [showCharacterModal, setShowCharacterModal] = useState(false);
-  const [showThemeModal, setShowThemeModal] = useState(false);
-
-  const openCharacterModal = () => setShowCharacterModal(true);
-  const closeCharacterModal = () => setShowCharacterModal(false);
-
-  const openThemeModal = () => setShowThemeModal(true);
-  const closeThemeModal = () => setShowThemeModal(false);
-
   useEffect(() => {
     const handleResize = () => {
       if (mobile && window.innerWidth > window.innerHeight) {
@@ -262,6 +253,8 @@ function App() {
       console.log("Full screen toggle failed:", error);
     }
   };
+
+  
 
   useEffect(() => {
     backgroundMusicRef.current = new Audio(backgroundMusic);
