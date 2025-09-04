@@ -88,8 +88,6 @@ import boyStep6 from "./Costom/Char8/step6.png";
 import boyStep7 from "./Costom/Char8/step7.png";
 import boyStep8 from "./Costom/Char8/step8.png";
 
-
-
 // Import coin image
 import coinImg from "./Costom/coin.png";
 
@@ -1050,89 +1048,6 @@ function App() {
                 </div>
               </div>
             </div>
-
-            {showCharacterModal && (
-              <div className="modal-overlay" onClick={closeCharacterModal}>
-                <div
-                  className="modal-content character-modal"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="modal-header">
-                    <h2>SELECT CHARACTER</h2>
-                    <button
-                      className="modal-close"
-                      onClick={closeCharacterModal}
-                    >
-                      ×
-                    </button>
-                  </div>
-                  <div className="modal-character-grid">
-                    {characters.map((character) => (
-                      <div
-                        key={character.id}
-                        className={`modal-character-card ${
-                          selectedCharacter === character.id ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          selectCharacter(character.id);
-                          closeCharacterModal();
-                        }}
-                      >
-                        <div className="modal-character-image">
-                          <img src={character.preview} alt={character.name} />
-                          {selectedCharacter === character.id && (
-                            <div className="selected-indicator">✓</div>
-                          )}
-                        </div>
-                        <div className="modal-character-info">
-                          <h3>{character.name}</h3>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {showThemeModal && (
-              <div className="modal-overlay" onClick={closeThemeModal}>
-                <div
-                  className="modal-content theme-modal"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="modal-header">
-                    <h2>SELECT THEME</h2>
-                    <button className="modal-close" onClick={closeThemeModal}>
-                      ×
-                    </button>
-                  </div>
-                  <div className="modal-theme-grid">
-                    {themes.map((theme) => (
-                      <div
-                        key={theme.id}
-                        className={`modal-theme-card ${
-                          selectedTheme === theme.image ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          selectTheme(theme.image);
-                          closeThemeModal();
-                        }}
-                      >
-                        <div className="modal-theme-image">
-                          <img src={theme.image} alt={theme.name} />
-                          {selectedTheme === theme.image && (
-                            <div className="selected-indicator">✓</div>
-                          )}
-                          <div className="modal-theme-overlay">
-                            <span>{theme.name}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
           {isTransitioning && <div className="transition-overlay"></div>}
         </div>
