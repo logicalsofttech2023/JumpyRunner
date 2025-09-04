@@ -58,42 +58,37 @@ const themeObstacles = {
 };
 
 // Import character images
-import dinoDefault from "./Costom/Char2/step1.png";
-import dinoJump from "./Costom/Char2/step1.png";
-import dinoStep2 from "./Costom/Char2/step2.png";
-import dinoStep3 from "./Costom/Char2/step3.png";
-import dinoStep4 from "./Costom/Char2/step4.png";
-import dinoStep5 from "./Costom/Char2/step5.png";
-import dinoStep6 from "./Costom/Char2/step6.png";
-import dinoStep7 from "./Costom/Char2/step7.png";
-import dinoStep8 from "./Costom/Char2/step8.png";
+import dinoDefault from "./Costom/Char7/step1.png";
+import dinoJump from "./Costom/Char7/step1.png";
+import dinoStep2 from "./Costom/Char7/step2.png";
+import dinoStep3 from "./Costom/Char7/step3.png";
+import dinoStep4 from "./Costom/Char7/step4.png";
+import dinoStep5 from "./Costom/Char7/step5.png";
+import dinoStep6 from "./Costom/Char7/step6.png";
+import dinoStep7 from "./Costom/Char7/step7.png";
+import dinoStep8 from "./Costom/Char7/step8.png";
 
-// Boy Walk
-import boyWalk1 from "./Costom/Char5/walk1.png";
-import boyWalk2 from "./Costom/Char5/walk2.png";
-import boyWalk3 from "./Costom/Char5/walk3.png";
-import boyWalk4 from "./Costom/Char5/walk4.png";
-import boyWalk5 from "./Costom/Char5/walk5.png";
-import boyWalk6 from "./Costom/Char5/walk6.png";
-import boyWalk7 from "./Costom/Char5/walk7.png";
-import boyWalk8 from "./Costom/Char5/walk8.png";
+import rebitDefault from "./Costom/Char3/step1.png";
+import rebitJump from "./Costom/Char3/step5.png";
+import rebitStep2 from "./Costom/Char3/step2.png";
+import rebitStep3 from "./Costom/Char3/step3.png";
+import rebitStep4 from "./Costom/Char3/step4.png";
+import rebitStep5 from "./Costom/Char3/step5.png";
+import rebitStep6 from "./Costom/Char3/step6.png";
+import rebitStep7 from "./Costom/Char3/step7.png";
+import rebitStep8 from "./Costom/Char3/step8.png";
 
-// Boy Jump
-import boyJump1 from "./Costom/Char5/jump1.png";
-import boyJump2 from "./Costom/Char5/jump2.png";
-import boyJump3 from "./Costom/Char5/jump3.png";
-import boyJump4 from "./Costom/Char5/jump4.png";
-import boyJump5 from "./Costom/Char5/jump5.png";
-import boyJump6 from "./Costom/Char5/jump6.png";
-import boyJump7 from "./Costom/Char5/jump7.png";
+import boyDefault from "./Costom/Char8/step1.png";
+import boyJump from "./Costom/Char8/step8.png";
+import boyStep2 from "./Costom/Char8/step2.png";
+import boyStep3 from "./Costom/Char8/step3.png";
+import boyStep4 from "./Costom/Char8/step4.png";
+import boyStep5 from "./Costom/Char8/step5.png";
+import boyStep6 from "./Costom/Char8/step6.png";
+import boyStep7 from "./Costom/Char8/step7.png";
+import boyStep8 from "./Costom/Char8/step8.png";
 
-// Boy die
-import boyDie1 from "./Costom/Char5/die1.png";
-import boyDie2 from "./Costom/Char5/die2.png";
-import boyDie3 from "./Costom/Char5/die3.png";
-import boyDie4 from "./Costom/Char5/die4.png";
-import boyDie5 from "./Costom/Char5/die5.png";
-import boyDie6 from "./Costom/Char5/die6.png";
+
 
 // Import coin image
 import coinImg from "./Costom/coin.png";
@@ -136,7 +131,7 @@ function App() {
   const canvasRef = useRef(null);
   const [gameState, setGameState] = useState("menu");
   const [selectedTheme, setSelectedTheme] = useState(theme3Img);
-  const [selectedCharacter, setSelectedCharacter] = useState("boy");
+  const [selectedCharacter, setSelectedCharacter] = useState("dino");
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [finalScore, setFinalScore] = useState(0);
@@ -179,31 +174,58 @@ function App() {
 
   const characters = [
     {
+      id: "dino",
+      name: "Peter",
+      runImages: [
+        dinoDefault,
+        dinoStep2,
+        dinoStep3,
+        dinoStep4,
+        dinoStep5,
+        dinoStep6,
+        dinoStep7,
+        dinoStep8,
+      ],
+      jumpImage: dinoJump,
+      preview: dinoDefault,
+      description: "Classic runner with smooth animation",
+      scale: 1.0,
+    },
+    {
+      id: "rebit",
+      name: "Rebit",
+      runImages: [
+        rebitDefault,
+        rebitStep2,
+        rebitStep3,
+        rebitStep4,
+        rebitStep5,
+        rebitStep6,
+        rebitStep7,
+        rebitStep8,
+      ],
+      jumpImage: rebitJump,
+      preview: rebitDefault,
+      description: "A cute rabbit with a unique style",
+      scale: 0.8,
+    },
+    {
       id: "boy",
       name: "Boy",
-      walkImages: [
-        boyWalk1,
-        boyWalk2,
-        boyWalk3,
-        boyWalk4,
-        boyWalk5,
-        boyWalk6,
-        boyWalk7,
-        boyWalk8,
+      runImages: [
+        boyDefault,
+        boyStep2,
+        boyStep3,
+        boyStep4,
+        boyStep5,
+        boyStep6,
+        boyStep7,
+        boyStep8,
       ],
-      jumpImages: [
-        boyJump1,
-        boyJump2,
-        boyJump3,
-        boyJump4,
-        boyJump5,
-        boyJump6,
-        boyJump7,
-      ],
-      dieImages: [boyDie1, boyDie2, boyDie3, boyDie4, boyDie5, boyDie6],
-      preview: boyWalk1,
-      description: "Energetic boy character",
-      scale: 1.0,
+      jumpImage: boyJump,
+      preview: boyDefault,
+      description: "A brave boy with a cool outfit",
+      scale: 1.2,
     },
   ];
   const themes = [
@@ -710,9 +732,6 @@ function App() {
       coinsController.reset();
       score.reset();
       gameSpeed = GAME_SPEED_START;
-      if (player) {
-    player.reset();
-  }
     }
 
     function showStartGameText() {
@@ -759,7 +778,6 @@ function App() {
 
       if (!gameOver && cactiController.collideWith(player)) {
         gameOver = true;
-        player.setDead();
         setupGameReset();
       }
 
